@@ -2,13 +2,16 @@ package com.sopt.now
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.sopt.now.databinding.ActivityLoginBinding
+import com.sopt.now.databinding.ActivitySignUpBinding
 
-class LoginActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityLoginBinding
+class SignUpActivity : AppCompatActivity() {
+    private lateinit var binding: ActivitySignUpBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLoginBinding.inflate(layoutInflater)
+        binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
     }
+
 }

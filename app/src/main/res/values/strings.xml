@@ -3,10 +3,16 @@
 
     <!--    login activity-->
     <string name="login_title">Welcome To SOPT</string>
-    <string name="login_id_label">ID</string>
-    <string name="login_id_hint">아이디를 입력해주세요</string>
-    <string name="login_pw_label">비밀번호</string>
-    <string name="login_pw_hint">비밀번호를 입력해주세요</string>
+    <string name="id_label">ID</string>
+    <string name="id_hint">아이디를 입력해주세요</string>
+    <string name="pw_label">비밀번호</string>
+    <string name="pw_hint">비밀번호를 입력해주세요</string>
     <string name="login_allow_button">로그인 하기</string>
-    <string name="login_sign_up_button">회원가입 하기</string>
+    <string name="sign_up_button">회원가입 하기</string>
+
+<!--    sign up activity-->
+    <string name="sign_up_title"><b>SIGN UP</b></string>
+    <string name="nickname_label">닉네임</string>
+    <string name="nickname_hint">닉네임을 입력해주세요</string>
+
 </resources>
