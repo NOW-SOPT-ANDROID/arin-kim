@@ -14,5 +14,7 @@
     <string name="sign_up_title"><b>SIGN UP</b></string>
     <string name="nickname_label">닉네임</string>
     <string name="nickname_hint">닉네임을 입력해주세요</string>
+    <string name="mbti_label">MBTI</string>
+    <string name="mbti_hint">MBTI를 입력해주세요</string>
 
 </resources>
