@@ -4,6 +4,9 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.MotionEvent
+import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
@@ -25,7 +28,6 @@ class LoginActivity : AppCompatActivity() {
                 savedPw = result.data?.getStringExtra("pw") ?: ""
                 savedNickname = result.data?.getStringExtra("nickname") ?: ""
                 savedMbti = result.data?.getStringExtra("mbti") ?: ""
-                Log.d("로그인", "$savedId, $savedNickname")
             }
         }
 
@@ -40,10 +42,10 @@ class LoginActivity : AppCompatActivity() {
             val pw = binding.edtLoginPw.text.toString()
             isCheckLogin = checkLogin(id, pw, savedId, savedPw)
             if (isCheckLogin) {
-                showSnackBar("로그인 성공!")
+                showToastMessage("로그인 성공!")
                 moveToMain()
             } else {
-                showSnackBar("로그인에 실패하였습니다.")
+                showToastMessage("로그인에 실패하였습니다.")
             }
         }
 
@@ -51,6 +53,17 @@ class LoginActivity : AppCompatActivity() {
             moveToSignUp()
         }
     }
+
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        hideKeyboard()
+        return super.dispatchTouchEvent(ev)
+    }
+
+    private fun hideKeyboard() {
+        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+    }
+
 
     private fun moveToSignUp() {
         val intent = Intent(this, SignUpActivity::class.java)
@@ -69,11 +82,11 @@ class LoginActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun showSnackBar(text: String = "") {
-        Snackbar.make(
-            binding.root,
+    private fun showToastMessage(text: String = "") {
+        Toast.makeText(
+            this,
             text,
-            Snackbar.LENGTH_SHORT
+            Toast.LENGTH_SHORT
         ).show()
     }
 

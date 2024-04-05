@@ -1,13 +1,14 @@
 package com.sopt.now
 
 import android.os.Bundle
+import android.view.MotionEvent
+import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.snackbar.Snackbar
 import com.sopt.now.databinding.ActivitySignUpBinding
 
 class SignUpActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignUpBinding
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,18 +20,21 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-    private fun onClickSignUpButton() {
-        if (!isInputValid()) {
-            showSnackBar("회원 정보를 모두 입력해주세요.")
-        } else {
-            showSnackBar("회원가입이 완료되었습니다.")
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        hideKeyboard()
+        return super.dispatchTouchEvent(ev)
+    }
 
-            intent.putExtra("id", binding.edtSignUpId.text.toString())
-            intent.putExtra("pw", binding.edtSignUpPw.text.toString())
-            intent.putExtra("nickname", binding.edtSignUpNickname.text.toString())
-            intent.putExtra("mbti", binding.edtSignUpMbti.text.toString())
-            setResult(RESULT_OK, intent)
-            finish()
+    private fun hideKeyboard() {
+        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+    }
+
+    private fun onClickSignUpButton() {
+        if (isInputValid()) {
+            handleValidInput()
+        } else {
+            showToastMessage("회원 정보를 모두 입력해주세요.")
         }
     }
 
@@ -58,11 +62,21 @@ class SignUpActivity : AppCompatActivity() {
         return mbtiText.isNotBlank() && mbtiText.length == 4
     }
 
-    private fun showSnackBar(text: String = "") {
-        Snackbar.make(
-            binding.root,
-            text,
-            Snackbar.LENGTH_SHORT
-        ).show()
+    private fun handleValidInput() {
+        showToastMessage("회원가입이 완료되었습니다.")
+
+        intent.apply {
+            putExtra("id", binding.edtSignUpId.text.toString())
+            putExtra("pw", binding.edtSignUpPw.text.toString())
+            putExtra("nickname", binding.edtSignUpNickname.text.toString())
+            putExtra("mbti", binding.edtSignUpMbti.text.toString())
+        }
+
+        setResult(RESULT_OK, intent)
+        finish()
+    }
+
+    private fun showToastMessage(text: String) {
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
     }
 }
