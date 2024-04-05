@@ -29,7 +29,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/tv_sign_up_pw_label"
+            android:id="@+id/tv_login_id_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -39,7 +39,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_login_title" />
 
         <EditText
-            android:id="@+id/edt_sign_up_pw"
+            android:id="@+id/edt_login_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -49,8 +49,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_sign_up_pw_label"
-            android:autofillHints=""
-            android:inputType="textPassword" />
+            android:autofillHints="" />
 
 
     </LinearLayout>

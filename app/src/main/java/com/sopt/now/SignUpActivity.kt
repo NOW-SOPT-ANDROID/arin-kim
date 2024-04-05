@@ -40,14 +40,20 @@ class SignUpActivity : AppCompatActivity() {
         if (!isInputValid()) {
             showSnackBar("회원 정보를 모두 입력해주세요.")
         } else {
+            id = binding.edtSignUpId.text.toString()
+            pw = binding.edtSignUpPw.text.toString()
+            nickname = binding.edtSignUpNickname.text.toString()
+            mbti = binding.edtSignUpMbti.text.toString()
+
+            showSnackBar("회원가입이 완료되었습니다.")
+
+            val intent = Intent()
             intent.putExtra("id", id)
             intent.putExtra("pw", pw)
-            intent.putExtra("nickname", nickname)
-            intent.putExtra("mbti", mbti)
-            startForResult.launch(Intent(this, LoginActivity::class.java))
+
+            startForResult.launch(intent)
         }
     }
-
     private fun isInputValid(): Boolean {
         return isIdValid() && isPwValid() && isNicknameValid() && isMbtiValid()
     }
