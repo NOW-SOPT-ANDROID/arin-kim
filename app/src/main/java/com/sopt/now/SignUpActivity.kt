@@ -1,17 +1,18 @@
 package com.sopt.now
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.sopt.now.databinding.ActivitySignUpBinding
 
 class SignUpActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignUpBinding
-    private lateinit var id: String
-    private lateinit var pw: String
-    private lateinit var nickname: String
-    private lateinit var mbti: String
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,19 +28,11 @@ class SignUpActivity : AppCompatActivity() {
         if (!isInputValid()) {
             showSnackBar("회원 정보를 모두 입력해주세요.")
         } else {
-            id = binding.edtSignUpId.text.toString()
-            pw = binding.edtSignUpPw.text.toString()
-            nickname = binding.edtSignUpNickname.text.toString()
-            mbti = binding.edtSignUpMbti.text.toString()
-
             showSnackBar("회원가입이 완료되었습니다.")
 
-            val intent = Intent(this, LoginActivity::class.java)
-            intent.putExtra("id", id)
-            intent.putExtra("pw", pw)
-            intent.putExtra("nickname", nickname)
-            intent.putExtra("mbti", mbti)
-            startActivity(intent)
+            intent.putExtra("id", binding.edtSignUpId.text.toString())
+            intent.putExtra("pw", binding.edtSignUpPw.text.toString())
+            setResult(RESULT_OK, intent)
             finish()
         }
     }
