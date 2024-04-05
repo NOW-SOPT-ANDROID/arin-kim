@@ -3,10 +3,17 @@
 
     <!--    LoginScreen-->
     <string name="login_screen_title">Welcome To SOPT!</string>
-    <string name="id_label">ID</string>
-    <string name="pw_label">Password</string>
-    <string name="nickname_label">Nickname</string>
-    <string name="mbti_label">MBTI</string>
+    <string name="label_id">ID</string>
+    <string name="label_pw">Password</string>
+    <string name="label_nickname">Nickname</string>
+    <string name="label_mbti">MBTI</string>
     <string name="btn_login">로그인</string>
     <string name="btn_sign_up">회원가입</string>
+
+    <!--    SignUpScreen-->
+    <string name="sign_up_title">Sign Up</string>
+    <string name="hint_id">아이디를 입력해주세요.</string>
+    <string name="hint_pw">비밀번호를 입력해주세요.</string>
+    <string name="hint_nickname">닉네임을 입력해주세요.</string>
+    <string name="hint_mbti">MBTI를 입력해주세요.</string>
 </resources>

@@ -21,10 +21,12 @@ import com.sopt.now.compose.R
 import com.sopt.now.compose.ui.base.SoptInputTextField
 import com.sopt.now.compose.ui.base.SoptOutlinedButton
 import com.sopt.now.compose.ui.base.SoptPasswordTextField
-import com.sopt.now.compose.ui.theme.NOWSOPTAndroidTheme
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(
+    onNavigateToHome: () -> Unit,
+    onNavigateToSignUp: () -> Unit,
+) {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -44,16 +46,16 @@ fun LoginScreen() {
         )
         Column {
             SoptInputTextField(
-                value = textId, text = R.string.id_label, onValueChange = { textId = it }
+                text = R.string.label_id, value = textId, onValueChange = { textId = it }
             )
             SoptPasswordTextField(
-                value = textPw, onValueChange = { textPw = it }
+                text = R.string.label_pw, value = textPw, onValueChange = { textPw = it }
             )
         }
 
         Column {
-            SoptOutlinedButton(text = R.string.btn_login, onClick = {})
-            SoptOutlinedButton(text = R.string.btn_sign_up, onClick = {})
+            SoptOutlinedButton(text = R.string.btn_login, onClick = onNavigateToHome)
+            SoptOutlinedButton(text = R.string.btn_sign_up, onClick = onNavigateToSignUp)
         }
     }
 }
@@ -61,5 +63,5 @@ fun LoginScreen() {
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenPreview() {
-    LoginScreen()
+    LoginScreen(onNavigateToHome = {}, onNavigateToSignUp = {})
 }
