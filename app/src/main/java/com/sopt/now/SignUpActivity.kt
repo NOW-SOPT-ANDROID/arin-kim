@@ -1,11 +1,6 @@
 package com.sopt.now
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.sopt.now.databinding.ActivitySignUpBinding
@@ -32,6 +27,8 @@ class SignUpActivity : AppCompatActivity() {
 
             intent.putExtra("id", binding.edtSignUpId.text.toString())
             intent.putExtra("pw", binding.edtSignUpPw.text.toString())
+            intent.putExtra("nickname", binding.edtSignUpNickname.text.toString())
+            intent.putExtra("mbti", binding.edtSignUpMbti.text.toString())
             setResult(RESULT_OK, intent)
             finish()
         }
