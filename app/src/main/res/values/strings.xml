@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">NOW SOPT Android</string>
+
+    <!--    LoginScreen-->
+    <string name="login_screen_title">Welcome To SOPT!</string>
+    <string name="id_label">ID</string>
+    <string name="pw_label">Password</string>
+    <string name="nickname_label">Nickname</string>
+    <string name="mbti_label">MBTI</string>
 </resources>
