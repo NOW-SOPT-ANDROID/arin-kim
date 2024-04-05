@@ -42,7 +42,7 @@ fun LoginScreen() {
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(16.dp)
         )
-        Column{
+        Column {
             SoptInputTextField(
                 value = textId, text = R.string.id_label, onValueChange = { textId = it }
             )
@@ -51,14 +51,15 @@ fun LoginScreen() {
             )
         }
 
-        SoptOutlinedButton(text = R.string.btn_login, onClick = {})
+        Column {
+            SoptOutlinedButton(text = R.string.btn_login, onClick = {})
+            SoptOutlinedButton(text = R.string.btn_sign_up, onClick = {})
+        }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenPreview() {
-    NOWSOPTAndroidTheme {
-        LoginScreen()
-    }
+    LoginScreen()
 }
