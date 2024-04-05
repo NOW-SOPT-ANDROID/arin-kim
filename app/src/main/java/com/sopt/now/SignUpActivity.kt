@@ -8,6 +8,14 @@ import androidx.appcompat.app.AppCompatActivity
 import com.sopt.now.databinding.ActivitySignUpBinding
 
 class SignUpActivity : AppCompatActivity() {
+    companion object {
+        const val MIN_LENGTH_LOGIN = 6
+        const val MAX_LENGTH_LOGIN = 10
+        const val MIN_LENGTH_PASSWORD = 8
+        const val MAX_LENGTH_PASSWORD = 12
+        const val MBTI_LENGTH = 4
+    }
+
     private lateinit var binding: ActivitySignUpBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,9 +23,7 @@ class SignUpActivity : AppCompatActivity() {
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnSignUp.setOnClickListener {
-            onClickSignUpButton()
-        }
+        setSignUpButton()
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
@@ -30,11 +36,13 @@ class SignUpActivity : AppCompatActivity() {
         imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
     }
 
-    private fun onClickSignUpButton() {
-        if (isInputValid()) {
-            handleValidInput()
-        } else {
-            showToastMessage("회원 정보를 모두 입력해주세요.")
+    private fun setSignUpButton() {
+        binding.btnSignUp.setOnClickListener {
+            if (isInputValid()) {
+                handleValidInput()
+            } else {
+                showToastMessage("회원 정보를 모두 입력해주세요.")
+            }
         }
     }
 
@@ -44,12 +52,12 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun isIdValid(): Boolean {
         val idText = binding.edtSignUpId.text.toString()
-        return idText.isNotBlank() && idText.length in 6..10
+        return idText.isNotBlank() && idText.length in MIN_LENGTH_LOGIN..MAX_LENGTH_LOGIN
     }
 
     private fun isPwValid(): Boolean {
         val pwText = binding.edtSignUpPw.text.toString()
-        return pwText.isNotBlank() && pwText.length in 8..12
+        return pwText.isNotBlank() && pwText.length in MIN_LENGTH_PASSWORD..MAX_LENGTH_PASSWORD
     }
 
     private fun isNicknameValid(): Boolean {
@@ -59,7 +67,7 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun isMbtiValid(): Boolean {
         val mbtiText = binding.edtSignUpMbti.text.toString()
-        return mbtiText.isNotBlank() && mbtiText.length == 4
+        return mbtiText.isNotBlank() && mbtiText.length == MBTI_LENGTH
     }
 
     private fun handleValidInput() {

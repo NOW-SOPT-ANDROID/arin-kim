@@ -26,8 +26,7 @@
             android:exported="false" />
         <activity
             android:name=".SignUpActivity"
-            android:exported="false"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+            android:exported="false" />
     </application>
 
 </manifest>

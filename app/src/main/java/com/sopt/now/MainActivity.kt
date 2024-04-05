@@ -21,9 +21,11 @@ class MainActivity : AppCompatActivity() {
         nickname = intent.getStringExtra("nickname").toString()
         mbti = intent.getStringExtra("mbti").toString()
 
-        binding.tvMyId.text = id
-        binding.tvMyPw.text = pw
-        binding.tvMyNickname.text = nickname
-        binding.tvMyMbti.text = mbti
+        with(binding) {
+            tvMyId.text = id
+            tvMyPw.text = pw
+            tvMyNickname.text = nickname
+            tvMyMbti.text = mbti
+        }
     }
 }

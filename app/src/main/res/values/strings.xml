@@ -10,7 +10,7 @@
     <string name="login_allow_button">로그인 하기</string>
     <string name="sign_up_button">회원가입 하기</string>
 
-<!--    sign up activity-->
+    <!--    sign up activity-->
     <string name="sign_up_title"><b>SIGN UP</b></string>
     <string name="nickname_label">닉네임</string>
     <string name="nickname_hint">닉네임을 입력해주세요</string>

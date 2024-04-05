@@ -3,23 +3,35 @@ package com.sopt.now
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.snackbar.Snackbar
 import com.sopt.now.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
-    private var isCheckLogin = false
-    private var savedId = ""
-    private var savedPw = ""
-    private var savedNickname = ""
-    private var savedMbti = ""
+    private var isCheckLogin: Boolean = false
+    private var savedId: String = ""
+    private var savedPw: String = ""
+    private var savedNickname: String = ""
+    private var savedMbti: String = ""
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        setLoginButtonClickListeners()
+        setSignUpButtonClickListeners()
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        hideKeyboard()
+        return super.dispatchTouchEvent(ev)
+    }
 
     private val startForResult =
         registerForActivityResult(StartActivityForResult()) { result: ActivityResult ->
@@ -31,12 +43,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityLoginBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-
+    private fun setLoginButtonClickListeners() {
         binding.btnLogin.setOnClickListener {
             val id = binding.edtLoginId.text.toString()
             val pw = binding.edtLoginPw.text.toString()
@@ -48,16 +55,14 @@ class LoginActivity : AppCompatActivity() {
                 showToastMessage("로그인에 실패하였습니다.")
             }
         }
+    }
 
+    private fun setSignUpButtonClickListeners() {
         binding.btnSignUp.setOnClickListener {
             moveToSignUp()
         }
     }
 
-    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
-        hideKeyboard()
-        return super.dispatchTouchEvent(ev)
-    }
 
     private fun hideKeyboard() {
         val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
