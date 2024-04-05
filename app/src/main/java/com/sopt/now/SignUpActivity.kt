@@ -1,10 +1,7 @@
 package com.sopt.now
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.sopt.now.databinding.ActivitySignUpBinding
@@ -15,16 +12,6 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var pw: String
     private lateinit var nickname: String
     private lateinit var mbti: String
-    private val startForResult =
-        registerForActivityResult(StartActivityForResult()) { result: ActivityResult ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val intent = result.data
-                id = intent?.getStringExtra("id") ?: ""
-                pw = intent?.getStringExtra("pw") ?: ""
-                nickname = intent?.getStringExtra("pw") ?: ""
-                mbti = intent?.getStringExtra("mbti") ?: ""
-            }
-        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,13 +34,16 @@ class SignUpActivity : AppCompatActivity() {
 
             showSnackBar("회원가입이 완료되었습니다.")
 
-            val intent = Intent()
+            val intent = Intent(this, LoginActivity::class.java)
             intent.putExtra("id", id)
             intent.putExtra("pw", pw)
-
-            startForResult.launch(intent)
+            intent.putExtra("nickname", nickname)
+            intent.putExtra("mbti", mbti)
+            startActivity(intent)
+            finish()
         }
     }
+
     private fun isInputValid(): Boolean {
         return isIdValid() && isPwValid() && isNicknameValid() && isMbtiValid()
     }

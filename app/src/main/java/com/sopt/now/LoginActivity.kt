@@ -1,9 +1,8 @@
 package com.sopt.now
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.result.ActivityResult
+import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -19,10 +18,17 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        var savedId = ""
+        var savedPw = ""
 
+        resultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == RESULT_OK) {
+                    savedId = result.data?.getStringExtra("id") ?: ""
+                    savedPw = result.data?.getStringExtra("pw") ?: ""
+                }
+            }
 
-        val savedId = intent.getStringExtra("id")
-        val savedPw = intent.getStringExtra("pw")
 
         val id = binding.edtLoginId.text.toString()
         val pw = binding.edtLoginPw.text.toString()
@@ -61,6 +67,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun checkLogin(id: String?, pw: String?, savedId: String?, savedPw: String?): Boolean {
+        Log.d("Login", savedId.toString())
+        Log.d("Login", savedPw.toString())
         return id != null && pw != null && id == savedId && pw == savedPw
     }
 }
