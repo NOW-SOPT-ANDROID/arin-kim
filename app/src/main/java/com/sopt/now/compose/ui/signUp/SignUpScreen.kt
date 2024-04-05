@@ -24,9 +24,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.sopt.now.compose.R
 import com.sopt.now.compose.ui.base.SoptInputTextField
 import com.sopt.now.compose.ui.base.SoptOutlinedButton
@@ -35,7 +35,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun SignUpScreen(
-    onNavigateToLogin: () -> Unit,
+    onNavigateToLogin: NavHostController,
 ) {
     val context = LocalContext.current
 
@@ -108,7 +108,7 @@ fun SignUpScreen(
                     "회원가입 성공",
                     Toast.LENGTH_SHORT
                 ).show()
-                onNavigateToLogin()
+                onNavigateToLogin.navigate("login?id=$textId&pw=$textPw&nickname=$textNickname&mbti=$textMbti")
             } else {
                 Toast.makeText(
                     context,
@@ -118,10 +118,4 @@ fun SignUpScreen(
             }
         }, enabled = true)
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun SignUpScreenPreview() {
-    SignUpScreen(onNavigateToLogin = {})
 }

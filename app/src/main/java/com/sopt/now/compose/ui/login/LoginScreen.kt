@@ -1,5 +1,6 @@
 package com.sopt.now.compose.ui.login
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,6 +27,10 @@ import com.sopt.now.compose.ui.base.SoptPasswordTextField
 fun LoginScreen(
     onNavigateToHome: () -> Unit,
     onNavigateToSignUp: () -> Unit,
+    id: String,
+    pw: String,
+    nickname: String,
+    mbti: String,
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -38,6 +43,14 @@ fun LoginScreen(
         var textPw by remember {
             mutableStateOf("")
         }
+
+
+        val isLoginButtonEnabled by remember(textId, textPw) {
+            mutableStateOf(
+                textId.isNotEmpty() && textPw.isNotEmpty()
+            )
+        }
+
         Text(
             text = stringResource(id = R.string.login_screen_title),
             fontSize = 24.sp,
@@ -56,7 +69,12 @@ fun LoginScreen(
         Column {
             SoptOutlinedButton(
                 text = R.string.btn_login,
-                onClick = onNavigateToHome,
+                onClick = {
+                    Log.d("Login", "$textId, $id")
+                    if (textId == id && textPw == pw && isLoginButtonEnabled) {
+                        onNavigateToHome()
+                    }
+                },
                 enabled = true
             )
             SoptOutlinedButton(
@@ -71,5 +89,12 @@ fun LoginScreen(
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenPreview() {
-    LoginScreen(onNavigateToHome = {}, onNavigateToSignUp = {})
+    LoginScreen(
+        onNavigateToHome = {},
+        onNavigateToSignUp = {},
+        id = "",
+        pw = "",
+        nickname = "",
+        mbti = ""
+    )
 }
