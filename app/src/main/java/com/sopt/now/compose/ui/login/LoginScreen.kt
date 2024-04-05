@@ -1,5 +1,6 @@
-package com.sopt.now.compose.ui.home
+package com.sopt.now.compose.ui.login
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -18,14 +19,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sopt.now.compose.R
 import com.sopt.now.compose.ui.base.SoptInputTextField
+import com.sopt.now.compose.ui.base.SoptOutlinedButton
 import com.sopt.now.compose.ui.base.SoptPasswordTextField
 import com.sopt.now.compose.ui.theme.NOWSOPTAndroidTheme
 
 @Composable
-fun HomeScreen() {
+fun LoginScreen() {
     Column(
         modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceBetween
     ) {
         var textId by remember {
             mutableStateOf("")
@@ -39,19 +42,23 @@ fun HomeScreen() {
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(16.dp)
         )
-        SoptInputTextField(
-            value = textId, text = R.string.id_label, onValueChange = { textId = it }
-        )
-        SoptPasswordTextField(
-            value = textPw, onValueChange = { textPw = it }
-        )
+        Column{
+            SoptInputTextField(
+                value = textId, text = R.string.id_label, onValueChange = { textId = it }
+            )
+            SoptPasswordTextField(
+                value = textPw, onValueChange = { textPw = it }
+            )
+        }
+
+        SoptOutlinedButton(text = R.string.btn_login, onClick = {})
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun LoginScreenPreview() {
     NOWSOPTAndroidTheme {
-        HomeScreen()
+        LoginScreen()
     }
 }

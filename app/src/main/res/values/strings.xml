@@ -7,4 +7,6 @@
     <string name="pw_label">Password</string>
     <string name="nickname_label">Nickname</string>
     <string name="mbti_label">MBTI</string>
+    <string name="btn_login">로그인</string>
+    <string name="btn_sign_up">회원가입</string>
 </resources>
