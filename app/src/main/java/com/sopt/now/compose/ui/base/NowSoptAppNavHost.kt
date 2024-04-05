@@ -41,13 +41,39 @@ fun NowSoptAppNavHost() {
             val nickname = backStackEntry.arguments?.getString("nickname")
             val mbti = backStackEntry.arguments?.getString("mbti")
             LoginScreen(
-                onNavigateToHome = { navController.navigate("home/id") },
+                onNavigateToHome = navController,
                 onNavigateToSignUp = { navController.navigate("signup") },
                 id.toString(), pw.toString(), nickname.toString(), mbti.toString()
             )
         }
 
-        composable("home/{id}") { HomeScreen() }
+        composable(
+            "home?id={id}&pw={pw}&nickname={nickname}&mbti={mbti}",
+            arguments = listOf(
+                navArgument("id") {
+                    type = NavType.StringType
+                    defaultValue = ""
+                },
+                navArgument("pw") {
+                    type = NavType.StringType
+                    defaultValue = ""
+                },
+                navArgument("nickname") {
+                    type = NavType.StringType
+                    defaultValue = ""
+                },
+                navArgument("mbti") {
+                    type = NavType.StringType
+                    defaultValue = ""
+                },
+            ),
+        ) { backStackEntry ->
+            val id = backStackEntry.arguments?.getString("id")
+            val pw = backStackEntry.arguments?.getString("pw")
+            val nickname = backStackEntry.arguments?.getString("nickname")
+            val mbti = backStackEntry.arguments?.getString("mbti")
+            HomeScreen(id.toString(), pw.toString(), nickname.toString(), mbti.toString())
+        }
         composable("signup") {
             SignUpScreen(onNavigateToLogin = navController)
         }

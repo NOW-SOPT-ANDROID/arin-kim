@@ -15,9 +15,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.sopt.now.compose.R
 import com.sopt.now.compose.ui.base.SoptInputTextField
 import com.sopt.now.compose.ui.base.SoptOutlinedButton
@@ -25,7 +25,7 @@ import com.sopt.now.compose.ui.base.SoptPasswordTextField
 
 @Composable
 fun LoginScreen(
-    onNavigateToHome: () -> Unit,
+    onNavigateToHome: NavHostController,
     onNavigateToSignUp: () -> Unit,
     id: String,
     pw: String,
@@ -72,7 +72,7 @@ fun LoginScreen(
                 onClick = {
                     Log.d("Login", "$textId, $id")
                     if (textId == id && textPw == pw && isLoginButtonEnabled) {
-                        onNavigateToHome()
+                        onNavigateToHome.navigate("home?id=$textId&pw=$textPw&nickname=$nickname&mbti=$mbti")
                     }
                 },
                 enabled = true
@@ -84,17 +84,4 @@ fun LoginScreen(
             )
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun LoginScreenPreview() {
-    LoginScreen(
-        onNavigateToHome = {},
-        onNavigateToSignUp = {},
-        id = "",
-        pw = "",
-        nickname = "",
-        mbti = ""
-    )
 }

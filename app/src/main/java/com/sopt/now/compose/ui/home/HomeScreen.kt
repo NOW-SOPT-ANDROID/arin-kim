@@ -9,12 +9,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.sopt.now.compose.R
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    id: String,
+    pw: String,
+    nickname: String,
+    mbti: String,
+) {
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         Image(
             painter = painterResource(id = R.drawable.ic_launcher_background),
@@ -22,10 +26,10 @@ fun HomeScreen() {
             modifier = Modifier.aspectRatio(3f / 4f)
         )
         Column {
-            Text(text = stringResource(id = R.string.label_nickname))
-            Text(text = stringResource(id = R.string.label_id))
-            Text(text = stringResource(id = R.string.label_pw))
-            Text(text = stringResource(id = R.string.label_mbti))
+            Text(text = id)
+            Text(text = pw)
+            Text(text = nickname)
+            Text(text = mbti)
         }
     }
 }
@@ -33,5 +37,10 @@ fun HomeScreen() {
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen()
+    HomeScreen(
+        id = "",
+        pw = "",
+        nickname = "",
+        mbti = "",
+    )
 }
