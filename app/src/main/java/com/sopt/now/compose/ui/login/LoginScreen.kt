@@ -54,8 +54,16 @@ fun LoginScreen(
         }
 
         Column {
-            SoptOutlinedButton(text = R.string.btn_login, onClick = onNavigateToHome)
-            SoptOutlinedButton(text = R.string.btn_sign_up, onClick = onNavigateToSignUp)
+            SoptOutlinedButton(
+                text = R.string.btn_login,
+                onClick = onNavigateToHome,
+                enabled = true
+            )
+            SoptOutlinedButton(
+                text = R.string.btn_sign_up,
+                onClick = onNavigateToSignUp,
+                enabled = true
+            )
         }
     }
 }

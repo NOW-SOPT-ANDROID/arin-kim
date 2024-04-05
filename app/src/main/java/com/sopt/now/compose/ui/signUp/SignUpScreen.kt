@@ -1,5 +1,6 @@
 package com.sopt.now.compose.ui.signUp
 
+import android.widget.Toast
 import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,6 +20,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -34,8 +36,9 @@ import kotlinx.coroutines.launch
 @Composable
 fun SignUpScreen(
     onNavigateToLogin: () -> Unit,
+) {
+    val context = LocalContext.current
 
-    ) {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -63,6 +66,15 @@ fun SignUpScreen(
         var textMbti by remember {
             mutableStateOf("")
         }
+
+        val isSignUpButtonEnabled by remember(textId, textPw, textNickname, textMbti) {
+            mutableStateOf(
+                textId.length in 6..10 && textPw.length in 8..12 && textNickname.isNotEmpty() && !textNickname.contains(
+                    " "
+                ) && textMbti.length == 4
+            )
+        }
+
         Text(
             text = stringResource(id = R.string.sign_up_title),
             fontWeight = FontWeight.Bold,
@@ -89,7 +101,22 @@ fun SignUpScreen(
                     onValueChange = { textMbti = it })
             }
         }
-        SoptOutlinedButton(text = R.string.btn_sign_up, onClick = onNavigateToLogin)
+        SoptOutlinedButton(text = R.string.btn_sign_up, onClick = {
+            if (isSignUpButtonEnabled) {
+                Toast.makeText(
+                    context,
+                    "회원가입 성공",
+                    Toast.LENGTH_SHORT
+                ).show()
+                onNavigateToLogin()
+            } else {
+                Toast.makeText(
+                    context,
+                    "조건을 만족하지 않습니다",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }, enabled = true)
     }
 }
 

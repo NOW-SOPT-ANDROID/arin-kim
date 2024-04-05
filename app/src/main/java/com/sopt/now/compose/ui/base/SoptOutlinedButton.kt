@@ -11,11 +11,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun SoptOutlinedButton(@StringRes text: Int, onClick: () -> Unit) {
+fun SoptOutlinedButton(@StringRes text: Int, onClick: () -> Unit, enabled: Boolean) {
     OutlinedButton(
         onClick = { onClick() }, modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+            .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
+        enabled = enabled
     ) {
         Text(text = stringResource(id = text))
     }
