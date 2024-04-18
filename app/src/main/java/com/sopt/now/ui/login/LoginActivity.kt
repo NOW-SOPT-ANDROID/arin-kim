@@ -1,4 +1,4 @@
-package com.sopt.now
+package com.sopt.now.ui.login
 
 import android.app.Activity
 import android.content.Intent
@@ -10,6 +10,8 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
 import com.sopt.now.databinding.ActivityLoginBinding
+import com.sopt.now.ui.main.MainActivity
+import com.sopt.now.ui.signUp.SignUpActivity
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
