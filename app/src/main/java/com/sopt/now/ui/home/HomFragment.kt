@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.sopt.now.data.Profiles
+import com.sopt.now.data.MultiData
 import com.sopt.now.databinding.FragmentHomeBinding
-import com.sopt.now.ui.adapter.FriendAdapter
+import com.sopt.now.ui.adapter.ItemAdapter
 import com.sopt.now.ui.home.viewModel.HomeViewModel
 
 class HomeFragment : Fragment() {
@@ -32,7 +32,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val items = viewModel.friendList
-        val friendAdapter = FriendAdapter(items)
+        val friendAdapter = ItemAdapter(items)
         binding.rvFriends.adapter = friendAdapter
         setFriendList(items)
     }
@@ -42,7 +42,7 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    private fun setFriendList(friendList: List<Profiles>) {
+    private fun setFriendList(friendList: List<MultiData>) {
         friendList.toList()
     }
 

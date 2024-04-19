@@ -5,11 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.sopt.now.data.Profiles
+import com.sopt.now.data.MultiData
 import com.sopt.now.databinding.ItemFriendBinding
 import com.sopt.now.databinding.ItemMyProfileBinding
 
-class FriendAdapter(val items: MutableList<Profiles>) : RecyclerView.Adapter<ViewHolder>() {
+class ItemAdapter(private val items: MutableList<MultiData>) : RecyclerView.Adapter<ViewHolder>() {
 
     companion object {
         private const val VIEW_TYPE_MY_PROFILE = 0
@@ -20,7 +20,7 @@ class FriendAdapter(val items: MutableList<Profiles>) : RecyclerView.Adapter<Vie
         fun onItemClick(view: View, position: Int)
     }
 
-    var itemClick: ItemClick? = null
+    private var itemClick: ItemClick? = null
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -40,13 +40,16 @@ class FriendAdapter(val items: MutableList<Profiles>) : RecyclerView.Adapter<Vie
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         when (val item = items[position]) {
-            is Profiles.MyProfile -> {
-                (holder as MyProfileViewHolder).name.text = item.name
+            is MultiData.MyProfile -> {
+                (holder as MyProfileViewHolder).profileImage.setImageResource(item.profileImage!!)
+                holder.name.text = item.name
+                holder.description.text = item.description
             }
 
-            is Profiles.Friend -> {
-                (holder as FriendViewHolder).name.text = item.name
-
+            is MultiData.Friend -> {
+                (holder as FriendViewHolder).profileImage.setImageResource(item.profileImage!!)
+                holder.name.text = item.name
+                holder.description.text = item.description
                 holder.itemView.setOnClickListener {
                     itemClick?.onItemClick(it, position)
                 }
@@ -61,12 +64,12 @@ class FriendAdapter(val items: MutableList<Profiles>) : RecyclerView.Adapter<Vie
 
     override fun getItemViewType(position: Int): Int {
         return when (items[position]) {
-            is Profiles.MyProfile -> VIEW_TYPE_MY_PROFILE
-            is Profiles.Friend -> VIEW_TYPE_FRIEND
+            is MultiData.MyProfile -> VIEW_TYPE_MY_PROFILE
+            is MultiData.Friend -> VIEW_TYPE_FRIEND
         }
     }
 
-    inner class MyProfileViewHolder(private val binding: ItemMyProfileBinding) :
+    inner class MyProfileViewHolder(binding: ItemMyProfileBinding) :
         ViewHolder(binding.root) {
 
         val profileImage = binding.ivProfile

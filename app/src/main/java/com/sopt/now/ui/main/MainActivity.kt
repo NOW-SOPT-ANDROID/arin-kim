@@ -11,10 +11,20 @@ import com.sopt.now.ui.search.SearchFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
+    private lateinit var id: String
+    private lateinit var pw: String
+    private lateinit var nickname: String
+    private lateinit var mbti: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        id = intent.getStringExtra("id").toString()
+        pw = intent.getStringExtra("pw").toString()
+        nickname = intent.getStringExtra("nickname").toString()
+        mbti = intent.getStringExtra("mbti").toString()
 
         val currentFragment = supportFragmentManager.findFragmentById(binding.fcvHome.id)
         if (currentFragment == null) {
@@ -30,7 +40,9 @@ class MainActivity : AppCompatActivity() {
         binding.bnvHome.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.menu_home -> {
-                    replaceFragment(HomeFragment())
+                    replaceFragment(
+                        HomeFragment()
+                    )
                     true
                 }
 
@@ -40,7 +52,11 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.menu_my_page -> {
-                    replaceFragment(MyPageFragment())
+                    replaceFragment(
+                        MyPageFragment(
+                            id, pw, nickname, mbti
+                        )
+                    )
                     true
                 }
 

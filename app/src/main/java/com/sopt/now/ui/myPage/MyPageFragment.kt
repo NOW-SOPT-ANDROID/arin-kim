@@ -7,7 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.sopt.now.databinding.FragmentMyPageBinding
 
-class MyPageFragment : Fragment() {
+class MyPageFragment(
+    private val id: String,
+    private val pw: String,
+    private val nickname: String,
+    private val mbti: String,
+) : Fragment() {
     private var _binding: FragmentMyPageBinding? = null
     private val binding
         get() = requireNotNull(_binding) {
@@ -27,12 +32,7 @@ class MyPageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val id = arguments?.getString("id") ?: ""
-        val password = arguments?.getString("pw") ?: ""
-        val nickname = arguments?.getString("nickname") ?: ""
-        val mbti = arguments?.getString("mbti") ?: ""
-
-        setMainProfile(id, password, nickname, mbti)
+        setMainProfile(id, pw, nickname, mbti)
 
     }
 
