@@ -17,13 +17,15 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 
 @Composable
 fun SoptBottomNavigation(navHostController: NavHostController) {
-    val items = listOf<Screen>(
+    val items = listOf(
         Screen.Home,
         Screen.Search,
         Screen.MyPage
     )
 
-    BottomNavigation {
+    BottomNavigation(
+        backgroundColor = Color.White
+    ) {
         val navBackStackEntry by navHostController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
         items.forEach { screen ->
