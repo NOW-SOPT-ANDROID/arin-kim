@@ -7,15 +7,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.sopt.now.compose.ui.home.HomeScreen
+import com.sopt.now.compose.ui.MainScreen
 import com.sopt.now.compose.ui.login.LoginScreen
 import com.sopt.now.compose.ui.signUp.SignUpScreen
 
 @Composable
-fun NowSoptAppNavHost() {
+fun SoptAppNavHost() {
     val navController: NavHostController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "login") {
+    NavHost(navController = navController, startDestination = "main") {
         composable(
             "login?id={id}&pw={pw}&nickname={nickname}&mbti={mbti}", arguments = listOf(
                 navArgument("id") {
@@ -48,7 +48,7 @@ fun NowSoptAppNavHost() {
         }
 
         composable(
-            "home?id={id}&pw={pw}&nickname={nickname}&mbti={mbti}",
+            "main?id={id}&pw={pw}&nickname={nickname}&mbti={mbti}",
             arguments = listOf(
                 navArgument("id") {
                     type = NavType.StringType
@@ -72,7 +72,7 @@ fun NowSoptAppNavHost() {
             val pw = backStackEntry.arguments?.getString("pw")
             val nickname = backStackEntry.arguments?.getString("nickname")
             val mbti = backStackEntry.arguments?.getString("mbti")
-            HomeScreen(id.toString(), pw.toString(), nickname.toString(), mbti.toString())
+            MainScreen(id.toString(), pw.toString(), nickname.toString(), mbti.toString())
         }
         composable("signup") {
             SignUpScreen(onNavigateToLogin = navController)
