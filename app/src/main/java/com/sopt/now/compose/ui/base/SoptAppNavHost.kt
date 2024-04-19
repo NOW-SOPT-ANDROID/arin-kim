@@ -15,7 +15,7 @@ import com.sopt.now.compose.ui.signUp.SignUpScreen
 fun SoptAppNavHost() {
     val navController: NavHostController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "main") {
+    NavHost(navController = navController, startDestination = "login") {
         composable(
             "login?id={id}&pw={pw}&nickname={nickname}&mbti={mbti}", arguments = listOf(
                 navArgument("id") {
