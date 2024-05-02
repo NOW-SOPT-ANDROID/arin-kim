@@ -37,7 +37,7 @@ class SignUpViewModel : ViewModel() {
                         }
                         Log.d("SignUp", "data : $data, userId: $userId")
                     } else {
-                        val error = response.message()
+                        val error = response.code()
                         _signUpState.update {
                             SignUpState(
                                 isSuccess = false,

@@ -39,15 +39,23 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun setSignUpButton() {
         binding.btnSignUp.setOnClickListener {
-            viewModel.signUp(getSignUpRequestDto())
+            when {
+                isInputValid() -> viewModel.signUp(getSignUpRequestDto())
+                else -> showToastMessage("모든 정보를 입력해주세요.")
+            }
         }
     }
 
     private fun setCollect() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.signUpState.collect { uiState ->
-                    showToastMessage(uiState.message)
+                viewModel.signUpState.collect { signUpState ->
+                    if (signUpState.message.isNotBlank()) {
+                        showToastMessage(signUpState.message)
+                        if (signUpState.isSuccess) {
+                            handleValidInput()
+                        }
+                    }
                 }
             }
         }
@@ -67,7 +75,7 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun isInputValid(): Boolean {
-        return isIdValid() && isPwValid() && isNicknameValid() && isMbtiValid()
+        return isIdValid() && isPwValid() && isNicknameValid() && isPhoneNumberValid()
     }
 
     private fun isIdValid(): Boolean {
@@ -77,7 +85,10 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun isPwValid(): Boolean {
         val pwText = binding.edtSignUpPw.text.toString()
-        return pwText.isNotBlank() && pwText.length in MIN_LENGTH_PASSWORD..MAX_LENGTH_PASSWORD
+        return pwText.isNotBlank() && pwText.length >= MIN_LENGTH_PASSWORD
+                && Regex("^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[\$@!%*#?&.])[A-Za-z[0-9]\$@!%*#?&.]{8,20}\$").matches(
+            pwText
+        )
     }
 
     private fun isNicknameValid(): Boolean {
@@ -85,22 +96,13 @@ class SignUpActivity : AppCompatActivity() {
         return nicknameText.isNotBlank() && !nicknameText.contains(" ")
     }
 
-    private fun isMbtiValid(): Boolean {
-        val mbtiText = binding.edtSignUpPhoneNumber.text.toString()
-        return mbtiText.isNotBlank() && mbtiText.length == MBTI_LENGTH
+    private fun isPhoneNumberValid(): Boolean {
+        val phoneNumberText = binding.edtSignUpPhoneNumber.text.toString()
+        return phoneNumberText.isNotBlank() && Regex("^010-\\d{4}-\\d{4}\$").matches(phoneNumberText)
     }
 
     private fun handleValidInput() {
         showToastMessage("회원가입이 완료되었습니다.")
-
-        intent.apply {
-            putExtra("id", binding.edtSignUpId.text.toString())
-            putExtra("pw", binding.edtSignUpPw.text.toString())
-            putExtra("nickname", binding.edtSignUpNickname.text.toString())
-            putExtra("mbti", binding.edtSignUpPhoneNumber.text.toString())
-        }
-
-        setResult(RESULT_OK, intent)
         finish()
     }
 
@@ -112,7 +114,5 @@ class SignUpActivity : AppCompatActivity() {
         const val MIN_LENGTH_LOGIN = 6
         const val MAX_LENGTH_LOGIN = 10
         const val MIN_LENGTH_PASSWORD = 8
-        const val MAX_LENGTH_PASSWORD = 12
-        const val MBTI_LENGTH = 4
     }
 }
