@@ -1,6 +1,5 @@
 package com.sopt.now.ui.signUp.viewModel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.sopt.now.data.model.RequestSignUpDto
 import com.sopt.now.data.model.ResponseSignUpDto
@@ -27,7 +26,6 @@ class SignUpViewModel : ViewModel() {
                     response: Response<ResponseSignUpDto>,
                 ) {
                     if (response.isSuccessful) {
-                        val data: ResponseSignUpDto? = response.body()
                         val userId = response.headers()["location"]
                         _signUpState.update {
                             SignUpState(
@@ -35,13 +33,12 @@ class SignUpViewModel : ViewModel() {
                                 message = "가입된 유저 아이디는 $userId"
                             )
                         }
-                        Log.d("SignUp", "data : $data, userId: $userId")
                     } else {
                         val error = response.code()
                         _signUpState.update {
                             SignUpState(
                                 isSuccess = false,
-                                message = "로그인 실패 : $error"
+                                message = "회원가입 실패 : $error"
                             )
                         }
                     }

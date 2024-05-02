@@ -1,28 +1,31 @@
-package com.sopt.now.ui.login
+package com.sopt.now.ui.signIn
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.sopt.now.data.model.RequestSignInDto
 import com.sopt.now.databinding.ActivityLoginBinding
 import com.sopt.now.ui.main.MainActivity
+import com.sopt.now.ui.signIn.viewModel.SignInViewModel
 import com.sopt.now.ui.signUp.SignUpActivity
+import kotlinx.coroutines.launch
 
-class LoginActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityLoginBinding
-    private var isCheckLogin: Boolean = false
-    private var savedId: String = ""
-    private var savedPw: String = ""
-    private var savedNickname: String = ""
-    private var savedMbti: String = ""
+class SignInActivity : AppCompatActivity() {
+    private val binding by lazy { ActivityLoginBinding.inflate(layoutInflater) }
+    private val viewModel by viewModels<SignInViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setCollect()
         setLoginButtonClickListeners()
         setSignUpButtonClickListeners()
     }
@@ -32,17 +35,34 @@ class LoginActivity : AppCompatActivity() {
         return super.dispatchTouchEvent(ev)
     }
 
+    private fun setCollect() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.signInState.collect { signInState ->
+                    if (signInState.message.isNotBlank()) {
+                        showToastMessage(signInState.message)
+                        if (signInState.isSuccess) {
+                            moveToMain()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getSignInRequestDto(): RequestSignInDto {
+        val id = binding.edtSignInId.text.toString()
+        val pw = binding.edtSignInPw.text.toString()
+
+        return RequestSignInDto(
+            authenticationId = id,
+            password = pw,
+        )
+    }
+
     private fun setLoginButtonClickListeners() {
         binding.btnLogin.setOnClickListener {
-            val id = binding.edtLoginId.text.toString()
-            val pw = binding.edtLoginPw.text.toString()
-            isCheckLogin = checkLogin(id, pw, savedId, savedPw)
-            if (isCheckLogin) {
-                showToastMessage("로그인 성공!")
-                moveToMain()
-            } else {
-                showToastMessage("로그인에 실패하였습니다.")
-            }
+            viewModel.signIn(getSignInRequestDto())
         }
     }
 
@@ -65,15 +85,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun moveToMain() {
-        val intent = Intent(this, MainActivity::class.java).apply {
-            putExtra("id", savedId)
-            putExtra("pw", savedPw)
-            putExtra("nickname", savedNickname)
-            putExtra("mbti", savedMbti)
-        }
+        val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
-        setResult(RESULT_OK, intent)
-        finish()
     }
 
     private fun showToastMessage(text: String = "") {
@@ -82,9 +95,5 @@ class LoginActivity : AppCompatActivity() {
             text,
             Toast.LENGTH_SHORT
         ).show()
-    }
-
-    private fun checkLogin(id: String, pw: String, savedId: String, savedPw: String): Boolean {
-        return id.isNotEmpty() && pw.isNotEmpty() && id == savedId && pw == savedPw
     }
 }

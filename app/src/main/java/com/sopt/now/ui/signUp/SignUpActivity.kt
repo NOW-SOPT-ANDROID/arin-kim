@@ -86,7 +86,7 @@ class SignUpActivity : AppCompatActivity() {
     private fun isPwValid(): Boolean {
         val pwText = binding.edtSignUpPw.text.toString()
         return pwText.isNotBlank() && pwText.length >= MIN_LENGTH_PASSWORD
-                && Regex("^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[\$@!%*#?&.])[A-Za-z[0-9]\$@!%*#?&.]{8,20}\$").matches(
+                && Regex("^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[\$@!%*#?&.])[A-Za-z\\[0-9]\\\$@!%*#?&.]{8,20}\$").matches(
             pwText
         )
     }
