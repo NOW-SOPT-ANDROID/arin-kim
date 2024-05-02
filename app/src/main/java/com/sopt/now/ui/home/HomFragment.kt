@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.sopt.now.data.ItemData
+import com.sopt.now.data.model.ItemData
 import com.sopt.now.databinding.FragmentHomeBinding
 import com.sopt.now.ui.adapter.ItemAdapter
 import com.sopt.now.ui.home.viewModel.HomeViewModel

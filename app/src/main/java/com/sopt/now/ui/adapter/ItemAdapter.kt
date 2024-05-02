@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.sopt.now.data.ItemData
+import com.sopt.now.data.model.ItemData
 import com.sopt.now.databinding.ItemFriendBinding
 import com.sopt.now.databinding.ItemMyProfileBinding
 

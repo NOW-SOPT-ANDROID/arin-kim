@@ -2,7 +2,7 @@ package com.sopt.now.ui.home.viewModel
 
 import androidx.lifecycle.ViewModel
 import com.sopt.now.R
-import com.sopt.now.data.ItemData
+import com.sopt.now.data.model.ItemData
 
 class HomeViewModel : ViewModel() {
     val friendList = mutableListOf(
