@@ -41,7 +41,7 @@ class MyPageFragment(
             tvMyId.text = id
             tvMyPw.text = pw
             tvMyNickname.text = nickname
-            tvMyMbti.text = mbti
+            tvMyPhoneNumber.text = mbti
         }
     }
 
