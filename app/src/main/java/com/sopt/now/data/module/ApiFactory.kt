@@ -2,7 +2,6 @@ package com.sopt.now.data.module
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.sopt.now.BuildConfig
-import com.sopt.now.data.network.AuthService
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
@@ -18,8 +17,4 @@ object ApiFactory {
     }
 
     inline fun <reified T> create(): T = retrofit.create(T::class.java)
-}
-
-object ServicePool {
-    val authService = ApiFactory.create<AuthService>()
 }
