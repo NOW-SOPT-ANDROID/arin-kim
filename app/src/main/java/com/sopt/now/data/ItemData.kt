@@ -2,20 +2,20 @@ package com.sopt.now.data
 
 import androidx.annotation.DrawableRes
 
-sealed class MultiData {
+sealed class ItemData {
 
     data class MyProfile(
         @DrawableRes val profileImage: Int?,
         val name: String,
         val description: String?,
-    ) : MultiData()
+    ) : ItemData()
 
 
     data class Friend(
         @DrawableRes val profileImage: Int?,
         val name: String,
         val description: String?,
-    ) : MultiData()
+    ) : ItemData()
 
 
 }

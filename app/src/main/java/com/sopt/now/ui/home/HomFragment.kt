@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.sopt.now.data.MultiData
+import com.sopt.now.data.ItemData
 import com.sopt.now.databinding.FragmentHomeBinding
 import com.sopt.now.ui.adapter.ItemAdapter
 import com.sopt.now.ui.home.viewModel.HomeViewModel
@@ -38,11 +38,11 @@ class HomeFragment : Fragment() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         _binding = null
+        super.onDestroy()
     }
 
-    private fun setFriendList(friendList: List<MultiData>) {
+    private fun setFriendList(friendList: List<ItemData>) {
         friendList.toList()
     }
 
