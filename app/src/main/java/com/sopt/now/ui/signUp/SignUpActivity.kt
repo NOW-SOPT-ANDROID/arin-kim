@@ -1,4 +1,4 @@
-package com.sopt.now
+package com.sopt.now.ui.signUp
 
 import android.os.Bundle
 import android.view.MotionEvent
