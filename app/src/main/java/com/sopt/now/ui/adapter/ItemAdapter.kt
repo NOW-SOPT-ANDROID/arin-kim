@@ -69,7 +69,7 @@ class ItemAdapter(private val items: MutableList<MultiData>) : RecyclerView.Adap
         }
     }
 
-    inner class MyProfileViewHolder(binding: ItemMyProfileBinding) :
+    private class MyProfileViewHolder(binding: ItemMyProfileBinding) :
         ViewHolder(binding.root) {
 
         val profileImage = binding.ivProfile
@@ -77,7 +77,7 @@ class ItemAdapter(private val items: MutableList<MultiData>) : RecyclerView.Adap
         val description = binding.tvDescription
     }
 
-    inner class FriendViewHolder(binding: ItemFriendBinding) :
+    private class FriendViewHolder(binding: ItemFriendBinding) :
         ViewHolder(binding.root) {
 
         val profileImage = binding.ivProfile
