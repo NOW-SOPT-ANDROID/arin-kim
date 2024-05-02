@@ -21,19 +21,32 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        id = intent.getStringExtra("id").toString()
-        pw = intent.getStringExtra("pw").toString()
-        nickname = intent.getStringExtra("nickname").toString()
-        mbti = intent.getStringExtra("mbti").toString()
+        initFragment()
+        clickBottomNavigation()
+    }
 
+    override fun onResume() {
+        super.onResume()
+
+        initIntent()
+    }
+
+    private fun initIntent() {
+        intent.run {
+            id = getStringExtra(ID).toString()
+            pw = getStringExtra(PW).toString()
+            nickname = getStringExtra(NICKNAME).toString()
+            mbti = getStringExtra(MBTI).toString()
+        }
+    }
+
+    private fun initFragment() {
         val currentFragment = supportFragmentManager.findFragmentById(binding.fcvHome.id)
         if (currentFragment == null) {
             supportFragmentManager.beginTransaction()
                 .add(binding.fcvHome.id, HomeFragment())
                 .commit()
         }
-
-        clickBottomNavigation()
     }
 
     private fun clickBottomNavigation() {
@@ -67,7 +80,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fcv_home, fragment)
+            .replace(binding.fcvHome.id, fragment)
             .commit()
+    }
+
+    companion object {
+        const val ID = "id"
+        const val PW = "pw"
+        const val NICKNAME = "nickname"
+        const val MBTI = "mbti"
     }
 }
