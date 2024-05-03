@@ -1,4 +1,4 @@
-package com.sopt.now.compose.data
+package com.sopt.now.compose.data.model
 
 data class Profile(
     val profileImage: Int,

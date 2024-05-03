@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.sopt.now.compose.R
-import com.sopt.now.compose.data.Profile
+import com.sopt.now.compose.data.model.Profile
 
 @Composable
 fun HomeScreen() {
