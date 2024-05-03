@@ -9,16 +9,14 @@ import com.sopt.now.databinding.FragmentMyPageBinding
 
 class MyPageFragment(
     private val id: String,
-    private val pw: String,
     private val nickname: String,
-    private val mbti: String,
+    private val phoneNumber: String,
 ) : Fragment() {
     private var _binding: FragmentMyPageBinding? = null
     private val binding
         get() = requireNotNull(_binding) {
             "바인딩 객체 미생성"
         }
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,16 +30,14 @@ class MyPageFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setMainProfile(id, pw, nickname, mbti)
-
+        setMainProfile(id, nickname, phoneNumber)
     }
 
-    private fun setMainProfile(id: String, pw: String, nickname: String, mbti: String) {
+    private fun setMainProfile(id: String, nickname: String, phoneNumber: String) {
         with(binding) {
             tvMyId.text = id
-            tvMyPw.text = pw
             tvMyNickname.text = nickname
-            tvMyPhoneNumber.text = mbti
+            tvMyPhoneNumber.text = phoneNumber
         }
     }
 

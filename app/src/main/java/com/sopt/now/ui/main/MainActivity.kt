@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var id: String
     private lateinit var pw: String
     private lateinit var nickname: String
-    private lateinit var mbti: String
+    private lateinit var phoneNumber: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
             id = getStringExtra(ID).toString()
             pw = getStringExtra(PW).toString()
             nickname = getStringExtra(NICKNAME).toString()
-            mbti = getStringExtra(MBTI).toString()
+            phoneNumber = getStringExtra(PHONE_NUMBER).toString()
         }
     }
 
@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.menu_my_page -> {
                     replaceFragment(
                         MyPageFragment(
-                            id, pw, nickname, mbti
+                            id, nickname, phoneNumber
                         )
                     )
                     true
@@ -88,6 +88,6 @@ class MainActivity : AppCompatActivity() {
         const val ID = "id"
         const val PW = "pw"
         const val NICKNAME = "nickname"
-        const val MBTI = "mbti"
+        const val PHONE_NUMBER = "phoneNumber"
     }
 }

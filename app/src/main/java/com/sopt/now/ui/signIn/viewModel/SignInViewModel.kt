@@ -1,6 +1,5 @@
 package com.sopt.now.ui.signIn.viewModel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.sopt.now.data.model.RequestSignInDto
 import com.sopt.now.data.model.ResponseSignInDto
@@ -20,24 +19,22 @@ class SignInViewModel : ViewModel() {
     val signInState = _signInState.asStateFlow()
 
     fun signIn(request: RequestSignInDto) {
-        authService.singIn(request).enqueue(
+        authService.signIn(request).enqueue(
             object : Callback<ResponseSignInDto> {
                 override fun onResponse(
                     call: Call<ResponseSignInDto>,
                     response: Response<ResponseSignInDto>,
                 ) {
                     if (response.isSuccessful) {
-                        val data = response.body()
                         val userId = response.headers()["location"]
+
                         _signInState.update {
                             SignInState(
                                 isSuccess = true,
                                 message = "유저 아이디는 $userId"
                             )
                         }
-                        Log.d("SignIn", "$data")
                     } else {
-                        val data = response.body()
                         val error = response.code()
                         _signInState.update {
                             SignInState(
@@ -45,7 +42,6 @@ class SignInViewModel : ViewModel() {
                                 message = "로그인 실패 : $error"
                             )
                         }
-                        Log.d("SignIn", "${data?.message}")
                     }
                 }
 

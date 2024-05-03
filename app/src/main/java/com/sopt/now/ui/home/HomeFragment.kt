@@ -6,10 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.sopt.now.data.model.ItemData
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.sopt.now.databinding.FragmentHomeBinding
 import com.sopt.now.ui.adapter.ItemAdapter
 import com.sopt.now.ui.home.viewModel.HomeViewModel
+import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
@@ -31,10 +35,9 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val items = viewModel.friendList
-        val friendAdapter = ItemAdapter(items)
-        binding.rvFriends.adapter = friendAdapter
-        setFriendList(items)
+
+        setCollect()
+        setAdapter()
     }
 
     override fun onDestroy() {
@@ -42,8 +45,20 @@ class HomeFragment : Fragment() {
         super.onDestroy()
     }
 
-    private fun setFriendList(friendList: List<ItemData>) {
-        friendList.toList()
+    private fun setCollect() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.followerState.collect {
+                    setAdapter()
+                }
+            }
+        }
     }
 
+    private fun setAdapter() {
+        val friendAdapter = ItemAdapter(viewModel.friendList)
+
+        binding.rvFriends.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvFriends.adapter = friendAdapter
+    }
 }
