@@ -16,4 +16,10 @@
     <string name="hint_pw">비밀번호를 입력해주세요.</string>
     <string name="hint_nickname">닉네임을 입력해주세요.</string>
     <string name="hint_mbti">MBTI를 입력해주세요.</string>
+
+    <!--    Screen-->
+    <string name="screen_home">홈</string>
+    <string name="screen_search">검색</string>
+    <string name="screen_my_page">마이페이지</string>
+
 </resources>

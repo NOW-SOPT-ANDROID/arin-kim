@@ -72,7 +72,7 @@ fun LoginScreen(
                 onClick = {
                     Log.d("Login", "$textId, $id")
                     if (textId == id && textPw == pw && isLoginButtonEnabled) {
-                        onNavigateToHome.navigate("home?id=$textId&pw=$textPw&nickname=$nickname&mbti=$mbti")
+                        onNavigateToHome.navigate("main?id=$textId&pw=$textPw&nickname=$nickname&mbti=$mbti")
                     }
                 },
                 enabled = true
