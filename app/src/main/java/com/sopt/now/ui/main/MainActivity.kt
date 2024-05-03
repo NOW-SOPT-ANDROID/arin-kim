@@ -66,9 +66,7 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.menu_my_page -> {
                     replaceFragment(
-                        MyPageFragment(
-                            id, nickname, phoneNumber
-                        )
+                        MyPageFragment()
                     )
                     true
                 }

@@ -37,7 +37,6 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setCollect()
-        setAdapter()
     }
 
     override fun onDestroy() {

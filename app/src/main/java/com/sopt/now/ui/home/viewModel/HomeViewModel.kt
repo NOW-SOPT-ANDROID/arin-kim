@@ -32,7 +32,7 @@ class HomeViewModel : ViewModel() {
     }
 
     private fun fetchFollowerList() {
-        followerService.getUserList(page = 2).enqueue(object : Callback<UserDataResponse> {
+        followerService.getUserList(page = 0).enqueue(object : Callback<UserDataResponse> {
             override fun onResponse(
                 call: Call<UserDataResponse>,
                 response: Response<UserDataResponse>,

@@ -6,15 +6,20 @@ import com.sopt.now.data.network.AuthService
 import com.sopt.now.data.network.FollowerService
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 
 object ApiFactory {
     private const val BASE_URL: String = BuildConfig.AUTH_BASE_URL
     private const val FOLLOWER_URL: String = BuildConfig.FOLLOWER_URL
 
+    private val interceptorClient = OkHttpClient().newBuilder()
+        .addInterceptor(AuthInterceptor("100")).build()
+
     val baseRetrofit: Retrofit by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
+            .client(interceptorClient)
             .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
             .build()
     }

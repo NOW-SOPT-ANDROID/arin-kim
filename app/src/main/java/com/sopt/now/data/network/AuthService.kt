@@ -22,5 +22,6 @@ interface AuthService {
     ): Call<ResponseSignInDto>
 
     @GET("member/info")
-    fun memberInfo(): Call<ResponseInfoDto>
+    fun memberInfo(
+    ): Call<ResponseInfoDto>
 }
