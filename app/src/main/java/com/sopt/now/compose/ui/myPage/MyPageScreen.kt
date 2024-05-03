@@ -7,7 +7,6 @@ import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -19,12 +18,7 @@ import androidx.compose.ui.res.painterResource
 import com.sopt.now.compose.R
 
 @Composable
-fun MyPageScreen(
-    id: String,
-    pw: String,
-    nickname: String,
-    mbti: String,
-) {
+fun MyPageScreen() {
     var offset by remember { mutableFloatStateOf(0f) }
 
     Column(modifier = Modifier
@@ -43,10 +37,10 @@ fun MyPageScreen(
             modifier = Modifier.aspectRatio(3f / 4f)
         )
         Column {
-            Text(text = id)
-            Text(text = pw)
-            Text(text = nickname)
-            Text(text = mbti)
+//            Text(text = id)
+//            Text(text = pw)
+//            Text(text = nickname)
+//            Text(text = mbti)
         }
     }
 }

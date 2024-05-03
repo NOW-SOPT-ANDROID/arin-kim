@@ -117,7 +117,6 @@ fun SignUpScreen(
                         phone = phone
                     )
                 )
-                onNavigateToSignIn.navigate("sign_in")
             } else {
                 Toast.makeText(
                     context,
