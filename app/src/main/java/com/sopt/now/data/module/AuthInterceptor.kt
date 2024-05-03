@@ -9,7 +9,7 @@ class AuthInterceptor : Interceptor {
         val originalRequest = chain.request()
 
         val newRequest = originalRequest.newBuilder()
-            .addHeader("memberId", "403")
+            .addHeader("memberId", "495")
             .build()
 
         return chain.proceed(newRequest)
