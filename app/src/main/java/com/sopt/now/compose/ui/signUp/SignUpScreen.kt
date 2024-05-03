@@ -13,6 +13,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,8 +27,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.sopt.now.compose.R
+import com.sopt.now.compose.data.model.RequestSignUpDto
 import com.sopt.now.compose.ui.base.SoptInputTextField
 import com.sopt.now.compose.ui.base.SoptOutlinedButton
 import com.sopt.now.compose.ui.base.SoptPasswordTextField
@@ -35,9 +38,25 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun SignUpScreen(
-    onNavigateToLogin: NavHostController,
+    onNavigateToSignIn: NavHostController,
+    signUpViewModel: SignUpViewModel = viewModel(),
 ) {
     val context = LocalContext.current
+    val signUpState by signUpViewModel.signUpState.collectAsState()
+
+    var id by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var nickname by remember { mutableStateOf("") }
+    var phone by remember { mutableStateOf("") }
+
+    LaunchedEffect(signUpState) {
+        if (signUpState.isSuccess) {
+            Toast.makeText(context, signUpState.message, Toast.LENGTH_SHORT).show()
+            onNavigateToSignIn.navigate("sign_in")
+        } else if (signUpState.message.isNotBlank()) {
+            Toast.makeText(context, signUpState.message, Toast.LENGTH_SHORT).show()
+        }
+    }
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -54,24 +73,11 @@ fun SignUpScreen(
             }
         }
 
-        var textId by remember {
-            mutableStateOf("")
-        }
-        var textPw by remember {
-            mutableStateOf("")
-        }
-        var textNickname by remember {
-            mutableStateOf("")
-        }
-        var textMbti by remember {
-            mutableStateOf("")
-        }
-
-        val isSignUpButtonEnabled by remember(textId, textPw, textNickname, textMbti) {
+        val isSignUpButtonEnabled by remember(id, password, nickname, phone) {
             mutableStateOf(
-                textId.length in 6..10 && textPw.length in 8..12 && textNickname.isNotEmpty() && !textNickname.contains(
+                id.length in 6..10 && password.length in 8..12 && nickname.isNotEmpty() && !nickname.contains(
                     " "
-                ) && textMbti.length == 4
+                ) && phone.matches(Regex("^010-\\d{4}-\\d{4}\$"))
             )
         }
 
@@ -85,30 +91,33 @@ fun SignUpScreen(
             item {
                 SoptInputTextField(
                     text = R.string.hint_id,
-                    value = textId,
-                    onValueChange = { textId = it })
+                    value = id,
+                    onValueChange = { id = it })
                 SoptPasswordTextField(
                     text = R.string.hint_pw,
-                    value = textPw,
-                    onValueChange = { textPw = it })
+                    value = password,
+                    onValueChange = { password = it })
                 SoptInputTextField(
                     text = R.string.hint_nickname,
-                    value = textNickname,
-                    onValueChange = { textNickname = it })
+                    value = nickname,
+                    onValueChange = { nickname = it })
                 SoptInputTextField(
-                    text = R.string.hint_mbti,
-                    value = textMbti,
-                    onValueChange = { textMbti = it })
+                    text = R.string.hint_phone,
+                    value = phone,
+                    onValueChange = { phone = it })
             }
         }
         SoptOutlinedButton(text = R.string.btn_sign_up, onClick = {
             if (isSignUpButtonEnabled) {
-                Toast.makeText(
-                    context,
-                    "회원가입 성공",
-                    Toast.LENGTH_SHORT
-                ).show()
-                onNavigateToLogin.navigate("login?id=$textId&pw=$textPw&nickname=$textNickname&mbti=$textMbti")
+                signUpViewModel.signUp(
+                    RequestSignUpDto(
+                        authenticationId = id,
+                        password = password,
+                        nickname = nickname,
+                        phone = phone
+                    )
+                )
+                onNavigateToSignIn.navigate("sign_in")
             } else {
                 Toast.makeText(
                     context,

@@ -6,7 +6,7 @@
     <string name="label_id">ID</string>
     <string name="label_pw">Password</string>
     <string name="label_nickname">Nickname</string>
-    <string name="label_mbti">MBTI</string>
+    <string name="label_phone">전화번호</string>
     <string name="btn_login">로그인</string>
     <string name="btn_sign_up">회원가입</string>
 
@@ -15,7 +15,7 @@
     <string name="hint_id">아이디를 입력해주세요.</string>
     <string name="hint_pw">비밀번호를 입력해주세요.</string>
     <string name="hint_nickname">닉네임을 입력해주세요.</string>
-    <string name="hint_mbti">MBTI를 입력해주세요.</string>
+    <string name="hint_phone">전화번호를 입력해주세요.</string>
 
     <!--    Screen-->
     <string name="screen_home">홈</string>
