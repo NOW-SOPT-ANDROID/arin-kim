@@ -41,9 +41,6 @@ class MyPageViewModel : ViewModel() {
                         _infoState.update {
                             data
                         }
-                        Log.d("MyPage", "$data")
-                    } else {
-                        Log.d("MyPage", "$data")
                     }
                 }
             }

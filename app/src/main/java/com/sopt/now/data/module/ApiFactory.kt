@@ -14,7 +14,7 @@ object ApiFactory {
     private const val FOLLOWER_URL: String = BuildConfig.FOLLOWER_URL
 
     private val interceptorClient = OkHttpClient().newBuilder()
-        .addInterceptor(AuthInterceptor("100")).build()
+        .addInterceptor(AuthInterceptor()).build()
 
     val baseRetrofit: Retrofit by lazy {
         Retrofit.Builder()
