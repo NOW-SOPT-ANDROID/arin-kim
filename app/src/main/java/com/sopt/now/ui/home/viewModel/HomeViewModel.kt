@@ -54,14 +54,12 @@ class HomeViewModel : ViewModel() {
     }
 
     fun mapFollowersToFriendList(followers: List<UserData>) {
-        for (follower in followers) {
-            friendList.add(
-                ItemData.Friend(
-                    profileImage = follower.avatar,
-                    name = "${follower.firstName} ${follower.lastName}",
-                    description = follower.email
-                )
+        friendList.addAll(followers.map { follower ->
+            ItemData.Friend(
+                profileImage = follower.avatar,
+                name = "${follower.firstName} ${follower.lastName}",
+                description = follower.email
             )
-        }
+        })
     }
 }
