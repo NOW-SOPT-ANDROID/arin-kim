@@ -1,14 +1,11 @@
 package com.sopt.now.compose.ui.signUp
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.sopt.now.compose.data.model.RequestSignUpDto
 import com.sopt.now.compose.data.model.ResponseSignUpDto
-import com.sopt.now.compose.data.model.SignUpState
 import com.sopt.now.compose.data.module.ServicePool
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -17,8 +14,8 @@ import retrofit2.Response
 class SignUpViewModel : ViewModel() {
     private val authService by lazy { ServicePool.authService }
 
-    private val _signUpState = MutableStateFlow(SignUpState(isSuccess = false, message = ""))
-    val signUpState = _signUpState.asStateFlow()
+    private val _signUpEvent = MutableStateFlow<SignUpSideEffect?>(null)
+    val signUpEvent = _signUpEvent.asStateFlow()
 
     private val _id = MutableStateFlow("")
     val id = _id.asStateFlow()
@@ -58,30 +55,24 @@ class SignUpViewModel : ViewModel() {
                 ) {
                     if (response.isSuccessful) {
                         val userId = response.headers()["location"]
-                        _signUpState.update {
-                            SignUpState(
-                                isSuccess = true,
-                                message = "가입된 유저 아이디는 $userId"
-                            )
-                        }
+                        _signUpEvent.value = SignUpSideEffect.Success("가입된 유저 아이디는 $userId")
                     } else {
                         val error = response.code()
-                        _signUpState.update {
-                            SignUpState(
-                                isSuccess = false,
-                                message = "회원가입 실패 : $error"
-                            )
-                        }
+                        _signUpEvent.value = SignUpSideEffect.Error("회원가입 실패 : $error")
                     }
                 }
 
                 override fun onFailure(call: Call<ResponseSignUpDto>, t: Throwable) {
-                    _signUpState.update {
-                        SignUpState(isSuccess = false, message = "서버 에러")
-                    }
-                    Log.d("SignUp", "${t.message}")
+                    _signUpEvent.value = SignUpSideEffect.Error("서버 에러: ${t.message}")
                 }
             },
         )
+    }
+
+    companion object {
+        const val MIN_LENGTH_LOGIN = 6
+        const val MAX_LENGTH_LOGIN = 10
+        const val MIN_LENGTH_PASSWORD = 8
+        const val MAX_LENGTH_PASSWORD = 12
     }
 }

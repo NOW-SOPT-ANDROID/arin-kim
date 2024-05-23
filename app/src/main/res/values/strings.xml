@@ -10,6 +10,7 @@
     <string name="btn_sign_in">로그인</string>
     <string name="btn_sign_up">회원가입</string>
     <string name="sign_up_fail">로그인 실패</string>
+    <string name="sign_up_fail_message">조건을 만족하지 않습니다</string>
 
     <!--    SignUpScreen-->
     <string name="sign_up_title">Sign Up</string>

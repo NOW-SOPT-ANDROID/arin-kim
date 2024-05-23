@@ -33,6 +33,10 @@ import com.sopt.now.compose.data.model.RequestSignUpDto
 import com.sopt.now.compose.ui.base.SoptInputTextField
 import com.sopt.now.compose.ui.base.SoptOutlinedButton
 import com.sopt.now.compose.ui.base.SoptPasswordTextField
+import com.sopt.now.compose.ui.signUp.SignUpViewModel.Companion.MAX_LENGTH_LOGIN
+import com.sopt.now.compose.ui.signUp.SignUpViewModel.Companion.MAX_LENGTH_PASSWORD
+import com.sopt.now.compose.ui.signUp.SignUpViewModel.Companion.MIN_LENGTH_LOGIN
+import com.sopt.now.compose.ui.signUp.SignUpViewModel.Companion.MIN_LENGTH_PASSWORD
 import kotlinx.coroutines.launch
 
 @Composable
@@ -41,21 +45,28 @@ fun SignUpScreen(
     signUpViewModel: SignUpViewModel = viewModel(),
 ) {
     val context = LocalContext.current
-    val signUpState by signUpViewModel.signUpState.collectAsState()
+    val signUpEvent by signUpViewModel.signUpEvent.collectAsState()
 
     val id by signUpViewModel.id.collectAsState()
     val password by signUpViewModel.password.collectAsState()
     val nickname by signUpViewModel.nickname.collectAsState()
     val phoneNumber by signUpViewModel.phoneNumber.collectAsState()
 
-    LaunchedEffect(signUpState) {
-        if (signUpState.isSuccess) {
-            Toast.makeText(context, signUpState.message, Toast.LENGTH_SHORT).show()
-            onNavigateToSignIn.navigate(context.getString(R.string.route_sign_in))
-        } else if (signUpState.message.isNotBlank()) {
-            Toast.makeText(context, signUpState.message, Toast.LENGTH_SHORT).show()
+    LaunchedEffect(signUpEvent) {
+        when (val event = signUpEvent) {
+            is SignUpSideEffect.Success -> {
+                Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+                onNavigateToSignIn.navigate(context.getString(R.string.route_sign_in))
+            }
+
+            is SignUpSideEffect.Error -> {
+                Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+            }
+
+            else -> {}
         }
     }
+
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -74,7 +85,9 @@ fun SignUpScreen(
 
         val isSignUpButtonEnabled by remember(id, password, nickname, phoneNumber) {
             mutableStateOf(
-                id.length in 6..10 && password.length in 8..12 && nickname.isNotEmpty() && !nickname.contains(
+                id.length in MIN_LENGTH_LOGIN..MAX_LENGTH_LOGIN
+                        && password.length in MIN_LENGTH_PASSWORD..MAX_LENGTH_PASSWORD
+                        && nickname.isNotEmpty() && !nickname.contains(
                     " "
                 ) && phoneNumber.matches(Regex("^010-\\d{4}-\\d{4}\$"))
             )
@@ -119,10 +132,12 @@ fun SignUpScreen(
             } else {
                 Toast.makeText(
                     context,
-                    "조건을 만족하지 않습니다",
+                    R.string.sign_up_fail_message,
                     Toast.LENGTH_SHORT
                 ).show()
             }
         }, enabled = true)
     }
 }
+
+
