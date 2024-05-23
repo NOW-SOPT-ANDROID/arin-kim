@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.sopt.now.R
 import com.sopt.now.data.model.RequestSignUpDto
 import com.sopt.now.databinding.ActivitySignUpBinding
 import com.sopt.now.ui.signUp.viewModel.SignUpViewModel
@@ -41,7 +42,7 @@ class SignUpActivity : AppCompatActivity() {
         binding.btnSignUp.setOnClickListener {
             when {
                 isInputValid() -> viewModel.signUp(getSignUpRequestDto())
-                else -> showToastMessage("모든 정보를 입력해주세요.")
+                else -> showToastMessage(R.string.toast_sign_up_fail)
             }
         }
     }
@@ -51,7 +52,6 @@ class SignUpActivity : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.signUpState.collect { signUpState ->
                     if (signUpState.message.isNotBlank()) {
-                        showToastMessage(signUpState.message)
                         if (signUpState.isSuccess) {
                             handleValidInput()
                         }
@@ -86,9 +86,6 @@ class SignUpActivity : AppCompatActivity() {
     private fun isPwValid(): Boolean {
         val pwText = binding.edtSignUpPw.text.toString()
         return pwText.isNotBlank() && pwText.length >= MIN_LENGTH_PASSWORD
-                && Regex("^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[\$@!%*#?&.])[A-Za-z[0-9]\$@!%*#?&.]{8,20}\$").matches(
-            pwText
-        )
     }
 
     private fun isNicknameValid(): Boolean {
@@ -98,15 +95,15 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun isPhoneNumberValid(): Boolean {
         val phoneNumberText = binding.edtSignUpPhoneNumber.text.toString()
-        return phoneNumberText.isNotBlank() && Regex("^010-\\d{4}-\\d{4}\$").matches(phoneNumberText)
+        return phoneNumberText.isNotBlank()
     }
 
     private fun handleValidInput() {
-        showToastMessage("회원가입이 완료되었습니다.")
+        showToastMessage(R.string.toast_sign_up_success)
         finish()
     }
 
-    private fun showToastMessage(text: String) {
+    private fun showToastMessage(text: Int) {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
     }
 
