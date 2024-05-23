@@ -12,12 +12,26 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-
 class SignInViewModel : ViewModel() {
     private val authService by lazy { ServicePool.authService }
 
     private val _signInState = MutableStateFlow(SignInState(isSuccess = false, message = ""))
     val signInState = _signInState.asStateFlow()
+
+    private val _id = MutableStateFlow("")
+    val id = _id.asStateFlow()
+
+    private val _password = MutableStateFlow("")
+    val password = _password.asStateFlow()
+
+    fun updateId(newId: String) {
+        _id.value = newId
+    }
+
+    fun updatePassword(newPassword: String) {
+        _password.value = newPassword
+    }
+
 
     fun signIn(request: RequestSignInDto) {
         authService.signIn(request).enqueue(

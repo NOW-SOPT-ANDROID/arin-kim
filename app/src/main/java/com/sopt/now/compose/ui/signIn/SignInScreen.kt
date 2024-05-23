@@ -12,7 +12,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -35,17 +34,17 @@ fun SignInScreen(
     signInViewModel: SignInViewModel = viewModel(),
 ) {
     val context = LocalContext.current
-    val signUpState by signInViewModel.signInState.collectAsState()
+    val signInState by signInViewModel.signInState.collectAsState()
 
-    var id by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+    val id by signInViewModel.id.collectAsState()
+    val password by signInViewModel.password.collectAsState()
 
-    LaunchedEffect(signUpState) {
-        if (signUpState.isSuccess) {
-            Toast.makeText(context, signUpState.message, Toast.LENGTH_SHORT).show()
-            onNavigateToHome.navigate("main")
-        } else if (signUpState.message.isNotBlank()) {
-            Toast.makeText(context, signUpState.message, Toast.LENGTH_SHORT).show()
+    LaunchedEffect(signInState) {
+        if (signInState.isSuccess) {
+            Toast.makeText(context, signInState.message, Toast.LENGTH_SHORT).show()
+            onNavigateToHome.navigate(context.getString(R.string.route_main))
+        } else if (signInState.message.isNotBlank()) {
+            Toast.makeText(context, signInState.message, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -68,10 +67,14 @@ fun SignInScreen(
         )
         Column {
             SoptInputTextField(
-                text = R.string.label_id, value = id, onValueChange = { id = it }
+                text = R.string.label_id,
+                value = id,
+                onValueChange = { signInViewModel.updateId(it) }
             )
             SoptPasswordTextField(
-                text = R.string.label_pw, value = password, onValueChange = { password = it }
+                text = R.string.label_pw,
+                value = password,
+                onValueChange = { signInViewModel.updatePassword(it) }
             )
         }
 
@@ -89,7 +92,7 @@ fun SignInScreen(
                     } else {
                         Toast.makeText(
                             context,
-                            "로그인 실패",
+                            R.string.sign_up_fail,
                             Toast.LENGTH_SHORT
                         ).show()
                     }

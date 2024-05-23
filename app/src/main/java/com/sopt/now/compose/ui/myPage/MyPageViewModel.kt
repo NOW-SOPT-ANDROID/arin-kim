@@ -1,9 +1,8 @@
 package com.sopt.now.compose.ui.myPage
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.sopt.now.compose.data.model.ResponseInfoDto
-import com.sopt.now.compose.data.model.UserInfo
+import com.sopt.now.compose.data.model.UserInfoDto
 import com.sopt.now.compose.data.module.ServicePool
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,7 +19,7 @@ class MyPageViewModel : ViewModel() {
             ResponseInfoDto(
                 code = 0,
                 message = "",
-                data = UserInfo(authenticationId = "", nickname = "", phone = "")
+                data = UserInfoDto(authenticationId = "", nickname = "", phone = "")
             )
         )
     val infoState = _infoState.asStateFlow()
@@ -46,7 +45,13 @@ class MyPageViewModel : ViewModel() {
             }
 
             override fun onFailure(call: Call<ResponseInfoDto>, t: Throwable) {
-                Log.e("MyPageError", "${t.message}")
+                _infoState.update {
+                    ResponseInfoDto(
+                        code = -1,
+                        message = "${t.message}",
+                        data = UserInfoDto(authenticationId = "", nickname = "", phone = "")
+                    )
+                }
             }
         })
     }

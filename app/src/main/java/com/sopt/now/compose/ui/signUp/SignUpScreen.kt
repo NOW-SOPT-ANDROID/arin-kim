@@ -18,7 +18,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -44,15 +43,15 @@ fun SignUpScreen(
     val context = LocalContext.current
     val signUpState by signUpViewModel.signUpState.collectAsState()
 
-    var id by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var nickname by remember { mutableStateOf("") }
-    var phone by remember { mutableStateOf("") }
+    val id by signUpViewModel.id.collectAsState()
+    val password by signUpViewModel.password.collectAsState()
+    val nickname by signUpViewModel.nickname.collectAsState()
+    val phoneNumber by signUpViewModel.phoneNumber.collectAsState()
 
     LaunchedEffect(signUpState) {
         if (signUpState.isSuccess) {
             Toast.makeText(context, signUpState.message, Toast.LENGTH_SHORT).show()
-            onNavigateToSignIn.navigate("sign_in")
+            onNavigateToSignIn.navigate(context.getString(R.string.route_sign_in))
         } else if (signUpState.message.isNotBlank()) {
             Toast.makeText(context, signUpState.message, Toast.LENGTH_SHORT).show()
         }
@@ -73,11 +72,11 @@ fun SignUpScreen(
             }
         }
 
-        val isSignUpButtonEnabled by remember(id, password, nickname, phone) {
+        val isSignUpButtonEnabled by remember(id, password, nickname, phoneNumber) {
             mutableStateOf(
                 id.length in 6..10 && password.length in 8..12 && nickname.isNotEmpty() && !nickname.contains(
                     " "
-                ) && phone.matches(Regex("^010-\\d{4}-\\d{4}\$"))
+                ) && phoneNumber.matches(Regex("^010-\\d{4}-\\d{4}\$"))
             )
         }
 
@@ -92,19 +91,19 @@ fun SignUpScreen(
                 SoptInputTextField(
                     text = R.string.hint_id,
                     value = id,
-                    onValueChange = { id = it })
+                    onValueChange = { signUpViewModel.updateId(it) })
                 SoptPasswordTextField(
                     text = R.string.hint_pw,
                     value = password,
-                    onValueChange = { password = it })
+                    onValueChange = { signUpViewModel.updatePassword(it) })
                 SoptInputTextField(
                     text = R.string.hint_nickname,
                     value = nickname,
-                    onValueChange = { nickname = it })
+                    onValueChange = { signUpViewModel.updateNickname(it) })
                 SoptInputTextField(
                     text = R.string.hint_phone,
-                    value = phone,
-                    onValueChange = { phone = it })
+                    value = phoneNumber,
+                    onValueChange = { signUpViewModel.updatePhoneNumber(it) })
             }
         }
         SoptOutlinedButton(text = R.string.btn_sign_up, onClick = {
@@ -114,7 +113,7 @@ fun SignUpScreen(
                         authenticationId = id,
                         password = password,
                         nickname = nickname,
-                        phone = phone
+                        phone = phoneNumber
                     )
                 )
             } else {

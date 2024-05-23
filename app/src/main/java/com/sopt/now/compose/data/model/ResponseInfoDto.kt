@@ -10,11 +10,11 @@ data class ResponseInfoDto(
     @SerialName("message")
     val message: String,
     @SerialName("data")
-    val data: UserInfo,
+    val data: UserInfoDto,
 )
 
 @Serializable
-data class UserInfo(
+data class UserInfoDto(
     @SerialName("authenticationId")
     val authenticationId: String,
     @SerialName("nickname")

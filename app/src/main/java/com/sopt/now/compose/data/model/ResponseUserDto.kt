@@ -9,12 +9,12 @@ data class ResponseUserDto(
     @SerialName("per_page") val perPage: Int,
     val total: Int,
     @SerialName("total_pages") val totalPages: Int,
-    val data: List<UserData>,
-    val support: Support,
+    val data: List<UserDataDto>,
+    val support: SupportDto,
 )
 
 @Serializable
-data class UserData(
+data class UserDataDto(
     val id: Int,
     val email: String,
     @SerialName("first_name") val firstName: String,
@@ -23,7 +23,7 @@ data class UserData(
 )
 
 @Serializable
-data class Support(
+data class SupportDto(
     val url: String,
     val text: String,
 )

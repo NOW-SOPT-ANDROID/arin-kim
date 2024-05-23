@@ -9,6 +9,7 @@
     <string name="label_phone">전화번호</string>
     <string name="btn_sign_in">로그인</string>
     <string name="btn_sign_up">회원가입</string>
+    <string name="sign_up_fail">로그인 실패</string>
 
     <!--    SignUpScreen-->
     <string name="sign_up_title">Sign Up</string>
@@ -21,5 +22,10 @@
     <string name="screen_home">홈</string>
     <string name="screen_search">검색</string>
     <string name="screen_my_page">마이페이지</string>
+
+    <!--    Navigation-->
+    <string name="route_main">main</string>
+    <string name="route_sign_in">sign_in</string>
+    <string name="route_sign_up">sign_up</string>
 
 </resources>

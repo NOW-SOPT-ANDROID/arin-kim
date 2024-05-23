@@ -20,6 +20,35 @@ class SignUpViewModel : ViewModel() {
     private val _signUpState = MutableStateFlow(SignUpState(isSuccess = false, message = ""))
     val signUpState = _signUpState.asStateFlow()
 
+    private val _id = MutableStateFlow("")
+    val id = _id.asStateFlow()
+
+    private val _password = MutableStateFlow("")
+    val password = _password.asStateFlow()
+
+    private val _nickname = MutableStateFlow("")
+    val nickname = _nickname.asStateFlow()
+
+    private val _phoneNumber = MutableStateFlow("")
+    val phoneNumber = _phoneNumber.asStateFlow()
+
+    fun updateId(id: String) {
+        _id.value = id
+    }
+
+    fun updatePassword(password: String) {
+        _password.value = password
+    }
+
+    fun updateNickname(nickname: String) {
+        _nickname.value = nickname
+    }
+
+    fun updatePhoneNumber(phoneNumber: String) {
+        _phoneNumber.value = phoneNumber
+    }
+
+
     fun signUp(request: RequestSignUpDto) {
         authService.signUp(request).enqueue(
             object : Callback<ResponseSignUpDto> {
