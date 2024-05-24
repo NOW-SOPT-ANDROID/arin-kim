@@ -1,6 +1,5 @@
 package com.sopt.now.ui.home.viewModel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.sopt.now.R
 import com.sopt.now.data.model.ItemData
@@ -42,13 +41,11 @@ class HomeViewModel : ViewModel() {
                     if (data != null) {
                         _followerState.value = data
                         mapFollowersToFriendList(data)
-                        Log.d("FOLLOWER", "$data")
                     }
                 }
             }
 
             override fun onFailure(call: Call<UserDataResponse>, t: Throwable) {
-                Log.e("HomeError", "${t.message}")
             }
         })
     }

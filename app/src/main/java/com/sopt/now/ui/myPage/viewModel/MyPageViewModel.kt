@@ -1,6 +1,5 @@
 package com.sopt.now.ui.myPage.viewModel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.sopt.now.data.model.ResponseInfoDto
 import com.sopt.now.data.model.UserInfo
@@ -46,7 +45,6 @@ class MyPageViewModel : ViewModel() {
             }
 
             override fun onFailure(call: Call<ResponseInfoDto>, t: Throwable) {
-                Log.e("MyPageError", "${t.message}")
             }
         })
     }
