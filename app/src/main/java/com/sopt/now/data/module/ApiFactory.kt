@@ -8,6 +8,7 @@ import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import retrofit2.create
 
 object ApiFactory {
     private const val BASE_URL: String = BuildConfig.AUTH_BASE_URL
@@ -31,11 +32,11 @@ object ApiFactory {
             .build()
     }
 
-    inline fun <reified T> createBase(): T = baseRetrofit.create(T::class.java)
-    inline fun <reified T> createFollower(): T = followerRetrofit.create(T::class.java)
+    inline fun <reified T> createBaseRetrofit(): T = baseRetrofit.create()
+    inline fun <reified T> createFollowerRetrofit(): T = followerRetrofit.create()
 }
 
 object ServicePool {
-    val authService = ApiFactory.createBase<AuthService>()
-    val followerService = ApiFactory.createFollower<FollowerService>()
+    val authService = ApiFactory.createBaseRetrofit<AuthService>()
+    val followerService = ApiFactory.createFollowerRetrofit<FollowerService>()
 }
