@@ -1,7 +1,7 @@
-package com.sopt.now.compose.data
+package com.sopt.now.compose.data.model
 
 data class Profile(
-    val profileImage: Int,
+    val profileImage: String,
     val name: String,
     val description: String,
 )

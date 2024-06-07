@@ -1,6 +1,5 @@
 package com.sopt.now.compose.ui.home
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,12 +13,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 
 @Composable
 fun HomeFriendProfile(
-    profileImage: Int,
+    profileImage: String,
     name: String,
     description: String,
 ) {
@@ -29,8 +28,8 @@ fun HomeFriendProfile(
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Image(
-            painter = painterResource(id = profileImage),
+        AsyncImage(
+            model = profileImage,
             contentDescription = null,
             modifier = Modifier
                 .width(36.dp)

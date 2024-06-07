@@ -13,11 +13,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -26,18 +26,47 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.sopt.now.compose.R
+import com.sopt.now.compose.data.model.RequestSignUpDto
 import com.sopt.now.compose.ui.base.SoptInputTextField
 import com.sopt.now.compose.ui.base.SoptOutlinedButton
 import com.sopt.now.compose.ui.base.SoptPasswordTextField
+import com.sopt.now.compose.ui.signUp.SignUpViewModel.Companion.MAX_LENGTH_LOGIN
+import com.sopt.now.compose.ui.signUp.SignUpViewModel.Companion.MAX_LENGTH_PASSWORD
+import com.sopt.now.compose.ui.signUp.SignUpViewModel.Companion.MIN_LENGTH_LOGIN
+import com.sopt.now.compose.ui.signUp.SignUpViewModel.Companion.MIN_LENGTH_PASSWORD
 import kotlinx.coroutines.launch
 
 @Composable
 fun SignUpScreen(
-    onNavigateToLogin: NavHostController,
+    onNavigateToSignIn: NavHostController,
+    signUpViewModel: SignUpViewModel = viewModel(),
 ) {
     val context = LocalContext.current
+    val signUpEvent by signUpViewModel.signUpEvent.collectAsState()
+
+    val id by signUpViewModel.id.collectAsState()
+    val password by signUpViewModel.password.collectAsState()
+    val nickname by signUpViewModel.nickname.collectAsState()
+    val phoneNumber by signUpViewModel.phoneNumber.collectAsState()
+
+    LaunchedEffect(signUpEvent) {
+        when (val event = signUpEvent) {
+            is SignUpSideEffect.Success -> {
+                Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+                onNavigateToSignIn.navigate(context.getString(R.string.route_sign_in))
+            }
+
+            is SignUpSideEffect.Error -> {
+                Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+            }
+
+            else -> {}
+        }
+    }
+
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -54,24 +83,13 @@ fun SignUpScreen(
             }
         }
 
-        var textId by remember {
-            mutableStateOf("")
-        }
-        var textPw by remember {
-            mutableStateOf("")
-        }
-        var textNickname by remember {
-            mutableStateOf("")
-        }
-        var textMbti by remember {
-            mutableStateOf("")
-        }
-
-        val isSignUpButtonEnabled by remember(textId, textPw, textNickname, textMbti) {
+        val isSignUpButtonEnabled by remember(id, password, nickname, phoneNumber) {
             mutableStateOf(
-                textId.length in 6..10 && textPw.length in 8..12 && textNickname.isNotEmpty() && !textNickname.contains(
+                id.length in MIN_LENGTH_LOGIN..MAX_LENGTH_LOGIN
+                        && password.length in MIN_LENGTH_PASSWORD..MAX_LENGTH_PASSWORD
+                        && nickname.isNotEmpty() && !nickname.contains(
                     " "
-                ) && textMbti.length == 4
+                ) && phoneNumber.matches(Regex("^010-\\d{4}-\\d{4}\$"))
             )
         }
 
@@ -85,37 +103,41 @@ fun SignUpScreen(
             item {
                 SoptInputTextField(
                     text = R.string.hint_id,
-                    value = textId,
-                    onValueChange = { textId = it })
+                    value = id,
+                    onValueChange = { signUpViewModel.updateId(it) })
                 SoptPasswordTextField(
                     text = R.string.hint_pw,
-                    value = textPw,
-                    onValueChange = { textPw = it })
+                    value = password,
+                    onValueChange = { signUpViewModel.updatePassword(it) })
                 SoptInputTextField(
                     text = R.string.hint_nickname,
-                    value = textNickname,
-                    onValueChange = { textNickname = it })
+                    value = nickname,
+                    onValueChange = { signUpViewModel.updateNickname(it) })
                 SoptInputTextField(
-                    text = R.string.hint_mbti,
-                    value = textMbti,
-                    onValueChange = { textMbti = it })
+                    text = R.string.hint_phone,
+                    value = phoneNumber,
+                    onValueChange = { signUpViewModel.updatePhoneNumber(it) })
             }
         }
         SoptOutlinedButton(text = R.string.btn_sign_up, onClick = {
             if (isSignUpButtonEnabled) {
-                Toast.makeText(
-                    context,
-                    "회원가입 성공",
-                    Toast.LENGTH_SHORT
-                ).show()
-                onNavigateToLogin.navigate("login?id=$textId&pw=$textPw&nickname=$textNickname&mbti=$textMbti")
+                signUpViewModel.signUp(
+                    RequestSignUpDto(
+                        authenticationId = id,
+                        password = password,
+                        nickname = nickname,
+                        phone = phoneNumber
+                    )
+                )
             } else {
                 Toast.makeText(
                     context,
-                    "조건을 만족하지 않습니다",
+                    R.string.sign_up_fail_message,
                     Toast.LENGTH_SHORT
                 ).show()
             }
         }, enabled = true)
     }
 }
+
+

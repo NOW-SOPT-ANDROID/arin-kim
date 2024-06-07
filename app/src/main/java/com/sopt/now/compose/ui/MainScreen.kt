@@ -15,10 +15,6 @@ import com.sopt.now.compose.ui.search.SearchScreen
 
 @Composable
 fun MainScreen(
-    id: String,
-    pw: String,
-    nickname: String,
-    mbti: String,
 ) {
     val navController = rememberNavController()
     Scaffold(
@@ -36,7 +32,7 @@ fun MainScreen(
                 SearchScreen()
             }
             composable(Screen.MyPage.route) {
-                MyPageScreen(id, pw, nickname, mbti)
+                MyPageScreen()
             }
         }
     }

@@ -1,25 +1,32 @@
 <resources>
     <string name="app_name">NOW SOPT Android</string>
 
-    <!--    LoginScreen-->
-    <string name="login_screen_title">Welcome To SOPT!</string>
+    <!--    SignInScreen-->
+    <string name="sign_in_screen_title">Welcome To SOPT!</string>
     <string name="label_id">ID</string>
     <string name="label_pw">Password</string>
     <string name="label_nickname">Nickname</string>
-    <string name="label_mbti">MBTI</string>
-    <string name="btn_login">로그인</string>
+    <string name="label_phone">전화번호</string>
+    <string name="btn_sign_in">로그인</string>
     <string name="btn_sign_up">회원가입</string>
+    <string name="sign_up_fail">로그인 실패</string>
+    <string name="sign_up_fail_message">조건을 만족하지 않습니다</string>
 
     <!--    SignUpScreen-->
     <string name="sign_up_title">Sign Up</string>
     <string name="hint_id">아이디를 입력해주세요.</string>
     <string name="hint_pw">비밀번호를 입력해주세요.</string>
     <string name="hint_nickname">닉네임을 입력해주세요.</string>
-    <string name="hint_mbti">MBTI를 입력해주세요.</string>
+    <string name="hint_phone">전화번호를 입력해주세요.</string>
 
     <!--    Screen-->
     <string name="screen_home">홈</string>
     <string name="screen_search">검색</string>
     <string name="screen_my_page">마이페이지</string>
+
+    <!--    Navigation-->
+    <string name="route_main">main</string>
+    <string name="route_sign_in">sign_in</string>
+    <string name="route_sign_up">sign_up</string>
 
 </resources>
