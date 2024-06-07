@@ -1,7 +1,7 @@
 package com.sopt.now.data.module
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import com.sopt.now.compose.BuildConfig
+import com.sopt.now.BuildConfig
 import com.sopt.now.data.network.AuthService
 import com.sopt.now.data.network.FollowerService
 import kotlinx.serialization.json.Json

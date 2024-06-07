@@ -39,9 +39,9 @@ class HomeFragment : Fragment() {
         setCollect()
     }
 
-    override fun onDestroy() {
+    override fun onDestroyView() {
         _binding = null
-        super.onDestroy()
+        super.onDestroyView()
     }
 
     private fun setCollect() {
@@ -56,7 +56,6 @@ class HomeFragment : Fragment() {
 
     private fun setAdapter() {
         val friendAdapter = ItemAdapter(viewModel.friendList)
-
         binding.rvFriends.layoutManager = LinearLayoutManager(requireContext())
         binding.rvFriends.adapter = friendAdapter
     }
