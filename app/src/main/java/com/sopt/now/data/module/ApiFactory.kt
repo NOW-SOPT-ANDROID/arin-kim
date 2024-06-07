@@ -1,13 +1,14 @@
 package com.sopt.now.data.module
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import com.sopt.now.BuildConfig
+import com.sopt.now.compose.BuildConfig
 import com.sopt.now.data.network.AuthService
 import com.sopt.now.data.network.FollowerService
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import retrofit2.create
 
 object ApiFactory {
     private const val BASE_URL: String = BuildConfig.AUTH_BASE_URL
@@ -31,11 +32,11 @@ object ApiFactory {
             .build()
     }
 
-    inline fun <reified T> createBase(): T = baseRetrofit.create(T::class.java)
-    inline fun <reified T> createFollower(): T = followerRetrofit.create(T::class.java)
+    inline fun <reified T> createBaseRetrofit(): T = baseRetrofit.create()
+    inline fun <reified T> createFollowerRetrofit(): T = followerRetrofit.create()
 }
 
 object ServicePool {
-    val authService = ApiFactory.createBase<AuthService>()
-    val followerService = ApiFactory.createFollower<FollowerService>()
+    val authService = ApiFactory.createBaseRetrofit<AuthService>()
+    val followerService = ApiFactory.createFollowerRetrofit<FollowerService>()
 }
