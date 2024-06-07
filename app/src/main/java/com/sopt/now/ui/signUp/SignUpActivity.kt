@@ -4,26 +4,28 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.sopt.now.R
+import com.sopt.now.data.model.RequestSignUpDto
 import com.sopt.now.databinding.ActivitySignUpBinding
+import com.sopt.now.ui.signUp.viewModel.SignUpViewModel
+import kotlinx.coroutines.launch
 
 class SignUpActivity : AppCompatActivity() {
-    companion object {
-        const val MIN_LENGTH_LOGIN = 6
-        const val MAX_LENGTH_LOGIN = 10
-        const val MIN_LENGTH_PASSWORD = 8
-        const val MAX_LENGTH_PASSWORD = 12
-        const val MBTI_LENGTH = 4
-    }
 
-    private lateinit var binding: ActivitySignUpBinding
+    private val binding by lazy { ActivitySignUpBinding.inflate(layoutInflater) }
+    private val viewModel by viewModels<SignUpViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setSignUpButton()
+        setCollect()
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
@@ -38,16 +40,42 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun setSignUpButton() {
         binding.btnSignUp.setOnClickListener {
-            if (isInputValid()) {
-                handleValidInput()
-            } else {
-                showToastMessage("회원 정보를 모두 입력해주세요.")
+            when {
+                isInputValid() -> viewModel.signUp(getSignUpRequestDto())
+                else -> showToastMessage(R.string.toast_sign_up_fail)
             }
         }
     }
 
+    private fun setCollect() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.signUpState.collect { signUpState ->
+                    if (signUpState.message.isNotBlank()) {
+                        if (signUpState.isSuccess) {
+                            handleValidInput()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getSignUpRequestDto(): RequestSignUpDto {
+        val id = binding.edtSignUpId.text.toString()
+        val password = binding.edtSignUpPw.text.toString()
+        val nickname = binding.edtSignUpNickname.text.toString()
+        val phoneNumber = binding.edtSignUpPhoneNumber.text.toString()
+        return RequestSignUpDto(
+            authenticationId = id,
+            password = password,
+            nickname = nickname,
+            phone = phoneNumber
+        )
+    }
+
     private fun isInputValid(): Boolean {
-        return isIdValid() && isPwValid() && isNicknameValid() && isMbtiValid()
+        return isIdValid() && isPwValid() && isNicknameValid() && isPhoneNumberValid()
     }
 
     private fun isIdValid(): Boolean {
@@ -57,7 +85,7 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun isPwValid(): Boolean {
         val pwText = binding.edtSignUpPw.text.toString()
-        return pwText.isNotBlank() && pwText.length in MIN_LENGTH_PASSWORD..MAX_LENGTH_PASSWORD
+        return pwText.isNotBlank() && pwText.length >= MIN_LENGTH_PASSWORD
     }
 
     private fun isNicknameValid(): Boolean {
@@ -65,26 +93,23 @@ class SignUpActivity : AppCompatActivity() {
         return nicknameText.isNotBlank() && !nicknameText.contains(" ")
     }
 
-    private fun isMbtiValid(): Boolean {
-        val mbtiText = binding.edtSignUpMbti.text.toString()
-        return mbtiText.isNotBlank() && mbtiText.length == MBTI_LENGTH
+    private fun isPhoneNumberValid(): Boolean {
+        val phoneNumberText = binding.edtSignUpPhoneNumber.text.toString()
+        return phoneNumberText.isNotBlank()
     }
 
     private fun handleValidInput() {
-        showToastMessage("회원가입이 완료되었습니다.")
-
-        intent.apply {
-            putExtra("id", binding.edtSignUpId.text.toString())
-            putExtra("pw", binding.edtSignUpPw.text.toString())
-            putExtra("nickname", binding.edtSignUpNickname.text.toString())
-            putExtra("mbti", binding.edtSignUpMbti.text.toString())
-        }
-
-        setResult(RESULT_OK, intent)
+        showToastMessage(R.string.toast_sign_up_success)
         finish()
     }
 
-    private fun showToastMessage(text: String) {
+    private fun showToastMessage(text: Int) {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+    }
+
+    companion object {
+        const val MIN_LENGTH_LOGIN = 6
+        const val MAX_LENGTH_LOGIN = 10
+        const val MIN_LENGTH_PASSWORD = 8
     }
 }

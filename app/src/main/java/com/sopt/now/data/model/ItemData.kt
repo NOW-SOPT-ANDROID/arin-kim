@@ -1,4 +1,4 @@
-package com.sopt.now.data
+package com.sopt.now.data.model
 
 import androidx.annotation.DrawableRes
 
@@ -12,7 +12,7 @@ sealed class ItemData {
 
 
     data class Friend(
-        @DrawableRes val profileImage: Int?,
+        val profileImage: String?,
         val name: String,
         val description: String?,
     ) : ItemData()

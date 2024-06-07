@@ -16,14 +16,14 @@
 
         <ImageView
             android:id="@+id/iv_main_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:importantForAccessibility="no"
-            android:src="@drawable/ic_launcher_background"
+            android:src="@drawable/img_arin"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -54,24 +54,14 @@
             android:text="@string/id_label" />
 
         <TextView
-            android:id="@+id/tv_my_pw"
+            android:id="@+id/tv_my_phone_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:text="@string/pw_label" />
-
-        <TextView
-            android:id="@+id/tv_my_mbti"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:text="@string/mbti_label" />
+            android:text="@string/phone_number_label" />
 
     </LinearLayout>
 

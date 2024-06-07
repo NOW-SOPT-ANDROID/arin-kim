@@ -5,7 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.sopt.now.data.ItemData
+import com.bumptech.glide.Glide
+import com.sopt.now.data.model.ItemData
 import com.sopt.now.databinding.ItemFriendBinding
 import com.sopt.now.databinding.ItemMyProfileBinding
 
@@ -47,9 +48,12 @@ class ItemAdapter(private val items: MutableList<ItemData>) : RecyclerView.Adapt
             }
 
             is ItemData.Friend -> {
-                (holder as FriendViewHolder).profileImage.setImageResource(item.profileImage!!)
-                holder.name.text = item.name
+                (holder as FriendViewHolder).name.text = item.name
                 holder.description.text = item.description
+                Glide.with(holder.profileImage.context)
+                    .load(item.profileImage)
+                    .into(holder.profileImage)
+
                 holder.itemView.setOnClickListener {
                     itemClick?.onItemClick(it, position)
                 }
