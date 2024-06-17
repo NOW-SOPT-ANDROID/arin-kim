@@ -59,6 +59,10 @@ fun SignUpScreen(
                 onNavigateToSignIn.navigate(context.getString(R.string.route_sign_in))
             }
 
+            is SignUpSideEffect.Loading -> {
+                Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+            }
+
             is SignUpSideEffect.Error -> {
                 Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
             }
