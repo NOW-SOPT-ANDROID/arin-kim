@@ -2,6 +2,9 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'org.jetbrains.kotlin.plugin.serialization'
+    id 'com.google.dagger.hilt.android'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 Properties properties = new Properties()
@@ -54,8 +57,8 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.core:core-ktx:1.13.0'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.7.0'
+    implementation 'androidx.core:core-ktx:1.13.1'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.8.0'
     implementation 'androidx.activity:activity-compose:1.9.0'
     implementation platform('androidx.compose:compose-bom:2024.05.00')
     implementation 'androidx.compose.ui:ui'
@@ -73,10 +76,10 @@ dependencies {
     implementation 'androidx.compose.material:material:1.6.7'
 
     // Lifecycle Viewmodel
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.0'
 
     // Fragment && Activity
-    implementation 'androidx.fragment:fragment-ktx:1.6.2'
+    implementation 'androidx.fragment:fragment-ktx:1.7.1'
     implementation 'androidx.activity:activity-ktx:1.9.0'
 
     // Retrofit
@@ -91,4 +94,8 @@ dependencies {
 
     // Coil
     implementation 'io.coil-kt:coil-compose:2.6.0'
+
+    // Hilt
+    implementation 'com.google.dagger:hilt-android:2.51'
+    kapt 'com.google.dagger:hilt-compiler:2.51.1'
 }

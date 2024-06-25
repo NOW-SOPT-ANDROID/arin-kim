@@ -1,22 +1,29 @@
 package com.sopt.now.compose.ui.home
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.sopt.now.compose.data.model.Profile
-import com.sopt.now.compose.data.model.ResponseUserDto
 import com.sopt.now.compose.data.model.UserDataDto
-import com.sopt.now.compose.data.module.ServicePool
+import com.sopt.now.compose.repository.FollowerRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.launch
+import java.io.IOException
 
 class HomeViewModel : ViewModel() {
-    private val followerService by lazy { ServicePool.followerService }
+    private val followerRepository = FollowerRepository()
 
     private val _followerState = MutableStateFlow<List<UserDataDto>>(emptyList())
     val followerState = _followerState.asStateFlow()
+
+    private var _eventNetworkError = MutableLiveData(false)
+    val eventNetworkError: LiveData<Boolean>
+        get() = _eventNetworkError
+
+    private var _isNetworkErrorShown = MutableLiveData(false)
 
     val friendList = mutableListOf<Profile>()
 
@@ -25,35 +32,38 @@ class HomeViewModel : ViewModel() {
     }
 
     private fun fetchFollowerList() {
-        followerService.getUserList(page = 0).enqueue(object : Callback<ResponseUserDto> {
-            override fun onResponse(
-                call: Call<ResponseUserDto>,
-                response: Response<ResponseUserDto>,
-            ) {
+        viewModelScope.launch {
+            try {
+                val response = followerRepository.getUserList(0)
                 if (response.isSuccessful) {
-                    val data = response.body()?.data
-                    if (data != null) {
+                    response.body()?.data?.let { data ->
                         _followerState.value = data
                         mapFollowersToFriendList(data)
                     }
+                    _eventNetworkError.value = false
+                    _isNetworkErrorShown.value = false
+                } else {
+                    _eventNetworkError.value = true
                 }
+            } catch (networkError: IOException) {
+                _eventNetworkError.value = true
+                Log.e("HomeError", "${networkError.message}")
             }
-
-            override fun onFailure(call: Call<ResponseUserDto>, t: Throwable) {
-                Log.e("HomeError", "${t.message}")
-            }
-        })
+        }
     }
 
-    fun mapFollowersToFriendList(followers: List<UserDataDto>) {
-        for (follower in followers) {
-            friendList.add(
-                Profile(
-                    profileImage = follower.avatar,
-                    name = "${follower.firstName} ${follower.lastName}",
-                    description = follower.email
-                )
+    fun onNetworkErrorShown() {
+        _isNetworkErrorShown.value = true
+    }
+
+    private fun mapFollowersToFriendList(followers: List<UserDataDto>) {
+        friendList.clear()
+        friendList.addAll(followers.map { follower ->
+            Profile(
+                profileImage = follower.avatar,
+                name = "${follower.firstName} ${follower.lastName}",
+                description = follower.email
             )
-        }
+        })
     }
 }
