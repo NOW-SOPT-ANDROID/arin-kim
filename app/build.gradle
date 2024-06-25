@@ -2,6 +2,9 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'org.jetbrains.kotlin.plugin.serialization'
+    id 'com.google.dagger.hilt.android'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 Properties properties = new Properties()
@@ -91,4 +94,8 @@ dependencies {
 
     // Coil
     implementation 'io.coil-kt:coil-compose:2.6.0'
+
+    // Hilt
+    implementation 'com.google.dagger:hilt-android:2.51'
+    kapt 'com.google.dagger:hilt-compiler:2.51.1'
 }
