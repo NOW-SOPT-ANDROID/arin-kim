@@ -9,9 +9,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.sopt.now.compose.ui.SoptApp
 import com.sopt.now.compose.ui.theme.NOWSOPTAndroidTheme
-import dagger.hilt.android.HiltAndroidApp
+import dagger.hilt.android.AndroidEntryPoint
 
-@HiltAndroidApp
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
