@@ -1,6 +1,7 @@
 package com.sopt.now.compose.ui.home
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -23,6 +24,8 @@ class HomeViewModel @Inject constructor(
     val followerState = _followerState.asStateFlow()
 
     private var _eventNetworkError = MutableLiveData(false)
+    val eventNetworkError: LiveData<Boolean>
+        get() = _eventNetworkError
 
     private var _isNetworkErrorShown = MutableLiveData(false)
 
@@ -51,6 +54,10 @@ class HomeViewModel @Inject constructor(
                 Log.e("HomeError", "${networkError.message}")
             }
         }
+    }
+
+    fun onNetworkErrorShown() {
+        _isNetworkErrorShown.value = true
     }
 
     private fun mapFollowersToFriendList(followers: List<UserDataDto>) {
