@@ -82,20 +82,7 @@ fun SignInScreen(
             SoptOutlinedButton(
                 text = R.string.btn_sign_in,
                 onClick = {
-                    if (isSignInButtonEnabled) {
-                        signInViewModel.signIn(
-                            RequestSignInDto(
-                                authenticationId = id,
-                                password = password,
-                            )
-                        )
-                    } else {
-                        Toast.makeText(
-                            context,
-                            R.string.sign_up_fail,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+
                 },
                 enabled = true
             )

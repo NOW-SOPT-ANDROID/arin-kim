@@ -13,7 +13,7 @@ import com.sopt.now.compose.ui.signUp.SignUpScreen
 fun SoptAppNavHost() {
     val navController: NavHostController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "sign_in") {
+    NavHost(navController = navController, startDestination = "main") {
         composable("sign_in") {
             SignInScreen(
                 onNavigateToHome = navController,

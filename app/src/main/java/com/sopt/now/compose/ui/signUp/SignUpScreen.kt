@@ -124,22 +124,7 @@ fun SignUpScreen(
             }
         }
         SoptOutlinedButton(text = R.string.btn_sign_up, onClick = {
-            if (isSignUpButtonEnabled) {
-                signUpViewModel.signUp(
-                    RequestSignUpDto(
-                        authenticationId = id,
-                        password = password,
-                        nickname = nickname,
-                        phone = phoneNumber
-                    )
-                )
-            } else {
-                Toast.makeText(
-                    context,
-                    R.string.sign_up_fail_message,
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+
         }, enabled = true)
     }
 }
