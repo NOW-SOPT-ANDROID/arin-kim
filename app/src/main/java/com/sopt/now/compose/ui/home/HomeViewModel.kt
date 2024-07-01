@@ -24,12 +24,10 @@ class HomeViewModel @Inject constructor(
     val followerState = _followerState.asStateFlow()
 
     private var _eventNetworkError = MutableLiveData(false)
-    val eventNetworkError: LiveData<Boolean>
-        get() = _eventNetworkError
 
     private var _isNetworkErrorShown = MutableLiveData(false)
 
-    val friendList = mutableListOf<Profile>()
+    private val friendList = mutableListOf<Profile>()
 
     init {
         fetchFollowerList()
