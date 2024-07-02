@@ -12,9 +12,11 @@ import javax.inject.Singleton
 class FollowerRepository @Inject constructor(
     private val followerService: FollowerService,
 ) {
-    suspend fun getUserList(page: Int): Response<ResponseUserDto> {
+    suspend fun getUserList(page: Int): Result<Response<ResponseUserDto>> {
         return withContext(Dispatchers.IO) {
-            followerService.getUserList(page).execute()
+            runCatching {
+                followerService.getUserList(page).execute()
+            }
         }
     }
 }

@@ -1,7 +1,5 @@
 package com.sopt.now.compose.ui.home
 
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,7 +10,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,22 +32,20 @@ class HomeViewModel @Inject constructor(
 
     private fun fetchFollowerList() {
         viewModelScope.launch {
-            try {
-                val response = followerRepository.getUserList(0)
-                if (response.isSuccessful) {
+            followerRepository.getUserList(0)
+                .onSuccess { response ->
                     response.body()?.data?.let { data ->
                         _followerState.value = data
                         mapFollowersToFriendList(data)
+                        _eventNetworkError.value = false
+                        _isNetworkErrorShown.value = false
+                    } ?: run {
+                        _eventNetworkError.value = true
                     }
-                    _eventNetworkError.value = false
-                    _isNetworkErrorShown.value = false
-                } else {
+                }
+                .onFailure { exception ->
                     _eventNetworkError.value = true
                 }
-            } catch (networkError: IOException) {
-                _eventNetworkError.value = true
-                Log.e("HomeError", "${networkError.message}")
-            }
         }
     }
 
