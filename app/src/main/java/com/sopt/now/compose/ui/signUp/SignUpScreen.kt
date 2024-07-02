@@ -29,7 +29,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.sopt.now.compose.R
-import com.sopt.now.compose.data.model.RequestSignUpDto
 import com.sopt.now.compose.ui.base.SoptInputTextField
 import com.sopt.now.compose.ui.base.SoptOutlinedButton
 import com.sopt.now.compose.ui.base.SoptPasswordTextField
@@ -59,6 +58,10 @@ fun SignUpScreen(
                 onNavigateToSignIn.navigate(context.getString(R.string.route_sign_in))
             }
 
+            is SignUpSideEffect.Loading -> {
+
+            }
+
             is SignUpSideEffect.Error -> {
                 Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
             }
@@ -81,16 +84,6 @@ fun SignUpScreen(
             coroutineScope.launch {
                 scrollState.scrollBy(keyboardHeight.toFloat())
             }
-        }
-
-        val isSignUpButtonEnabled by remember(id, password, nickname, phoneNumber) {
-            mutableStateOf(
-                id.length in MIN_LENGTH_LOGIN..MAX_LENGTH_LOGIN
-                        && password.length in MIN_LENGTH_PASSWORD..MAX_LENGTH_PASSWORD
-                        && nickname.isNotEmpty() && !nickname.contains(
-                    " "
-                ) && phoneNumber.matches(Regex("^010-\\d{4}-\\d{4}\$"))
-            )
         }
 
         Text(
@@ -120,22 +113,7 @@ fun SignUpScreen(
             }
         }
         SoptOutlinedButton(text = R.string.btn_sign_up, onClick = {
-            if (isSignUpButtonEnabled) {
-                signUpViewModel.signUp(
-                    RequestSignUpDto(
-                        authenticationId = id,
-                        password = password,
-                        nickname = nickname,
-                        phone = phoneNumber
-                    )
-                )
-            } else {
-                Toast.makeText(
-                    context,
-                    R.string.sign_up_fail_message,
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+
         }, enabled = true)
     }
 }
